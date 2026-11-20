@@ -1,0 +1,2919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>س · SEEN — Spatial Virtual T-Shirt Try-On Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@800;900&family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+:root{
+  --ease:cubic-bezier(.22,1,.36,1);
+  --sans:"Inter",system-ui,-apple-system,sans-serif;
+  --MH:min(77vh,48vw);
+  --CW:min(14.6vw,32vh);
+  --model:url("assets/waist-sheet.png?v=5");
+  --garm:url("assets/tshirts-grid.png?v=5");
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{
+  scroll-behavior:smooth;
+  overflow-x:clip;
+  overflow-y:scroll;
+  scrollbar-gutter:stable;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.18) #06070a;
+}
+html.modal-open,body.modal-open{overflow:hidden}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#06070a}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.32)}
+
+body{
+  min-height:100vh;
+  background:#06070a;
+  color:#fff;
+  font-family:var(--sans);
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  user-select:none;
+  -webkit-user-select:none;
+}
+button,a{
+  font:inherit;
+  color:inherit;
+  background:none;
+  border:0;
+  text-decoration:none;
+  cursor:pointer;
+}
+input,textarea,select{
+  font:inherit;
+  color:#fff;
+  user-select:text;
+  -webkit-user-select:text;
+}
+@media(pointer:fine){
+  body.spatial-cur,
+  body.spatial-cur .hero,
+  body.spatial-cur .hero button,
+  body.spatial-cur .hero a{cursor:none}
+}
+
+/* =========================================================================
+   1. ZERO-LAG STATIC ULTRA-SHARP DARK LUXURY STUDIO STAGE
+   ========================================================================= */
+.studio-bg{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  contain:strict;
+  background:
+    radial-gradient(52% 48% at 50% 30%,rgba(255,255,255,.09) 0%,rgba(170,190,225,.035) 38%,transparent 72%),
+    radial-gradient(38% 48% at 14% 52%,rgba(110,145,215,.065) 0%,transparent 70%),
+    radial-gradient(38% 48% at 86% 48%,rgba(218,188,150,.055) 0%,transparent 70%),
+    radial-gradient(70% 36% at 50% 100%,rgba(255,255,255,.05) 0%,transparent 70%),
+    linear-gradient(180deg,#08090d 0%,#0c0e14 48%,#050608 100%);
+}
+.studio-beam{
+  position:absolute;
+  left:50%;
+  top:-16vh;
+  width:min(90vw,1160px);
+  height:110vh;
+  transform:translateX(-50%);
+  background:conic-gradient(from 180deg at 50% 0%,transparent 140deg,rgba(255,255,255,.048) 168deg,rgba(240,246,255,.085) 180deg,rgba(255,255,255,.048) 192deg,transparent 220deg);
+}
+.studio-grid{
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(rgba(255,255,255,.10) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(60% 56% at 50% 46%,#000 0%,rgba(0,0,0,.4) 55%,transparent 90%);
+  mask-image:radial-gradient(60% 56% at 50% 46%,#000 0%,rgba(0,0,0,.4) 55%,transparent 90%);
+  opacity:.5;
+}
+.studio-horizon{
+  position:absolute;
+  left:50%;
+  bottom:-26vh;
+  width:150vw;
+  height:52vh;
+  transform:translateX(-50%);
+  border-radius:50%;
+  border-top:1px solid rgba(255,255,255,.085);
+  background:radial-gradient(50% 50% at 50% 0%,rgba(255,255,255,.05),transparent 72%);
+}
+
+/* Hero Full-Screen Spatial Stage */
+.hero{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:660px;
+  overflow:hidden;
+  z-index:2;
+}
+
+/* =========================================================================
+   2. CRISP VECTOR ARABIC SEEN (س) MONOGRAM — UNMISTAKABLY VISIBLE ABOVE SHOULDERS
+   ========================================================================= */
+.ghost{
+  position:absolute;
+  left:50%;
+  top:9vh;
+  z-index:2;
+  transform:translate3d(-50%,0,0);
+  pointer-events:none;
+  will-change:transform;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.seen-svg{
+  width:min(48vw,560px);
+  height:auto;
+  overflow:visible;
+  display:block;
+  will-change:transform,opacity;
+}
+
+/* =========================================================================
+   3. HUD GLASS (STATIC ELEMENTS ONLY -> ZERO FRAME-DROP!)
+   ========================================================================= */
+.glass{
+  background:linear-gradient(155deg,rgba(255,255,255,.13),rgba(255,255,255,.055) 48%,rgba(255,255,255,.09));
+  backdrop-filter:blur(18px) saturate(1.55);
+  -webkit-backdrop-filter:blur(18px) saturate(1.55);
+  border:1px solid rgba(255,255,255,.20);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 20px 48px -22px rgba(0,0,0,.82);
+}
+.glass-dark{
+  background:linear-gradient(155deg,rgba(20,22,28,.92),rgba(12,13,18,.88) 52%,rgba(22,24,30,.92));
+  backdrop-filter:blur(22px) saturate(1.5);
+  -webkit-backdrop-filter:blur(22px) saturate(1.5);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 28px 72px -22px rgba(0,0,0,.9);
+}
+
+/* 4. Top Glass Pill Tabs */
+.tabs{
+  position:absolute;
+  left:50%;
+  top:2.8vh;
+  transform:translateX(-50%);
+  z-index:30;
+  display:flex;
+  align-items:center;
+  gap:2px;
+  padding:5px;
+  border-radius:999px;
+}
+.tabs .pill{
+  position:absolute;
+  top:5px;
+  left:0;
+  height:36px;
+  border-radius:999px;
+  background:#fff;
+  box-shadow:0 4px 16px -6px rgba(255,255,255,.4);
+  pointer-events:none;
+  z-index:0;
+  transition:transform .52s var(--ease),width .52s var(--ease);
+}
+.tabs button{
+  position:relative;
+  z-index:1;
+  height:36px;
+  padding:0 18px;
+  font-weight:500;
+  font-size:13.5px;
+  color:rgba(255,255,255,.76);
+  border-radius:999px;
+  white-space:nowrap;
+  transition:color .32s var(--ease);
+}
+.tabs button:hover{color:#fff}
+.tabs button.on{color:#090a0e;font-weight:600}
+
+/* Top-Right Live Price & Bag Pill (ZERO OVERLAP WITH 3D CARDS!) */
+.price-pill{
+  position:absolute;
+  right:max(20px,2vw);
+  top:2.8vh;
+  z-index:45;
+  height:46px;
+  padding:0 16px 0 18px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#fff;
+  font-variant-numeric:tabular-nums;
+  transition:transform .24s var(--ease),border-color .24s var(--ease),background .24s var(--ease);
+}
+.price-pill:hover{border-color:rgba(255,255,255,.44);transform:translateY(-1px)}
+.price-pill .pp-usd{font-size:16px;font-weight:800;letter-spacing:-.02em}
+.price-pill .pp-bdt{font-size:12px;font-weight:600;color:rgba(255,255,255,.74)}
+.price-pill .pp-sep{width:1px;height:16px;background:rgba(255,255,255,.22)}
+.price-pill .pp-bag{
+  font-size:12px;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:999px;
+  background:#fff;
+  color:#090a0e;
+}
+
+/* 5. Left Glass Tool Rail */
+.rail{
+  position:absolute;
+  left:max(20px,2vw);
+  top:50%;
+  transform:translateY(-50%);
+  z-index:30;
+  display:flex;
+  flex-direction:column;
+  padding:8px;
+  gap:10px;
+  border-radius:999px;
+}
+.rail button{
+  position:relative;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:rgba(255,255,255,.82);
+  transition:background .28s var(--ease),color .28s var(--ease),transform .22s var(--ease);
+}
+.rail button:hover{background:rgba(255,255,255,.16);color:#fff}
+.rail button.on{background:#fff;color:#090a0e}
+.rail button:active{transform:scale(.9)}
+.rail svg{width:19px;height:19px;display:block}
+.rail .badge{
+  position:absolute;
+  top:1px;
+  right:1px;
+  min-width:17px;
+  height:17px;
+  padding:0 4px;
+  border-radius:999px;
+  background:#fff;
+  color:#090a0e;
+  font-size:10px;
+  font-weight:800;
+  display:grid;
+  place-items:center;
+  transform:scale(0);
+  transition:transform .32s var(--ease);
+}
+.rail .badge.show{transform:scale(1)}
+
+/* =========================================================================
+   6. 120FPS GPU-COMPOSITED 3D T-SHIRT ARC (ZERO BACKDROP-BLUR THRASHING!)
+   ========================================================================= */
+.stage{
+  position:absolute;
+  inset:0;
+  z-index:10;
+  touch-action:pan-y;
+}
+.arc{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:0;
+  height:0;
+}
+.card{
+  position:absolute;
+  width:var(--CW);
+  height:calc(var(--CW) * 1.42);
+  left:calc(var(--CW) * -.5);
+  top:calc(var(--CW) * -.71);
+  border-radius:24px;
+  overflow:hidden;
+  visibility:hidden;
+  opacity:0;
+  will-change:transform,opacity;
+  contain:layout paint style;
+  /* Pure GPU smoked-crystal glass shader (no expensive per-frame backdrop-filter or blur!) */
+  background:
+    radial-gradient(76% 56% at 50% 36%,rgba(255,255,255,.17) 0%,rgba(255,255,255,.04) 55%,transparent 82%),
+    linear-gradient(158deg,rgba(46,51,64,.82) 0%,rgba(22,25,33,.78) 52%,rgba(34,38,48,.84) 100%);
+  border:1px solid rgba(255,255,255,.20);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.34),0 22px 46px -20px rgba(0,0,0,.88);
+  transition:border-color .28s var(--ease);
+}
+.card:hover{
+  border-color:rgba(255,255,255,.52);
+}
+.card .g{
+  position:absolute;
+  left:8%;
+  right:8%;
+  top:7%;
+  height:60%;
+  background-repeat:no-repeat;
+  pointer-events:none;
+}
+.card .nm,
+.card .pr{
+  position:absolute;
+  left:0;
+  right:0;
+  text-align:center;
+  color:#fff;
+  pointer-events:none;
+  padding:0 10%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.card .nm{
+  bottom:17.5%;
+  font-weight:500;
+  font-size:calc(var(--CW) * .067);
+  color:rgba(255,255,255,.88);
+  letter-spacing:-.01em;
+}
+.card .pr{
+  bottom:7%;
+  font-weight:700;
+  font-size:calc(var(--CW) * .096);
+  font-variant-numeric:tabular-nums;
+}
+.card .sheen{
+  position:absolute;
+  inset:-25%;
+  background:linear-gradient(108deg,transparent 38%,rgba(255,255,255,.32) 50%,transparent 62%);
+  transform:translate3d(-115%,0,0);
+  opacity:0;
+  pointer-events:none;
+}
+
+/* =========================================================================
+   7. HD WAIST-UP MODEL (480x836, 6'0" PROPORTIONS, BAKED ALPHA WAIST FADE)
+   ========================================================================= */
+.model-aura{
+  position:absolute;
+  left:50%;
+  bottom:9vh;
+  transform:translateX(-50%);
+  width:min(38vw,440px);
+  height:var(--MH);
+  z-index:45;
+  pointer-events:none;
+  background:radial-gradient(50% 48% at 50% 44%,rgba(255,255,255,.10) 0%,rgba(165,195,255,.04) 46%,transparent 76%);
+}
+.model{
+  position:absolute;
+  left:50%;
+  bottom:8.2vh;
+  transform:translate3d(-50%,0,0);
+  height:var(--MH);
+  aspect-ratio:480 / 836;
+  z-index:50;
+  pointer-events:none;
+  contain:layout style;
+}
+#mCur,#mNext{
+  position:absolute;
+  inset:0;
+  background-repeat:no-repeat;
+  will-change:clip-path,transform;
+}
+#mCur{opacity:0}
+#mNext{clip-path:inset(0 0 100% 0)}
+.model .grid{
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(255,255,255,.22) 5px 6px);
+  mix-blend-mode:screen;
+  clip-path:inset(0 0 100% 0);
+  pointer-events:none;
+}
+.model .scan{
+  position:absolute;
+  left:-16%;
+  right:-16%;
+  top:0;
+  height:2px;
+  opacity:0;
+  background:linear-gradient(90deg,transparent,#fff 18%,#fff 82%,transparent);
+  box-shadow:0 0 18px 4px rgba(255,255,255,.85),0 0 56px 10px rgba(175,220,255,.5);
+  pointer-events:none;
+  will-change:top,transform,opacity;
+}
+.model .scan::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:100%;
+  height:calc(var(--MH) * .12);
+  background:linear-gradient(to top,rgba(215,238,255,.32),transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);
+}
+
+/* 8. Arrows */
+.arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:30;
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  transition:transform .24s var(--ease),background .24s var(--ease),border-color .24s var(--ease);
+}
+.arrow:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.42)}
+.arrow.prev{left:calc(max(20px,2vw) + 74px)}
+.arrow.next{right:max(20px,2vw)}
+.arrow:active{transform:translateY(-50%) scale(.9)}
+.arrow svg{width:16px;height:16px;display:block}
+
+/* 8b. Slide-Out Side Pricing & Live Bag Drawer (Starts collapsed -> ZERO card overlap!) */
+.side-price{
+  position:absolute;
+  right:max(20px,2vw);
+  top:calc(2.8vh + 58px);
+  z-index:65;
+  width:274px;
+  padding:17px;
+  border-radius:24px;
+  color:#fff;
+  transform:translate3d(0,0,0);
+  opacity:1;
+  transition:transform .46s var(--ease),opacity .36s var(--ease);
+}
+.side-price.collapsed{
+  transform:translate3d(calc(100% + 32px),0,0);
+  opacity:0;
+  pointer-events:none;
+}
+.sp-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sp-kicker{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.68)}
+.sp-count{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.12);font-variant-numeric:tabular-nums}
+.sp-close{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:13px;line-height:1}
+.sp-close:hover{background:rgba(255,255,255,.26)}
+.sp-price-row{display:flex;align-items:baseline;gap:9px;margin-bottom:5px}
+.sp-usd{font-size:32px;font-weight:800;letter-spacing:-.035em;line-height:1;font-variant-numeric:tabular-nums}
+.sp-bdt{font-size:12.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);font-variant-numeric:tabular-nums}
+.sp-meta{font-size:12px;color:rgba(255,255,255,.8);margin-bottom:10px;line-height:1.4}
+.sp-spec{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px}
+.sp-chip{font-size:11px;font-weight:500;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.9)}
+.sp-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn-solid{
+  height:36px;border-radius:999px;background:#fff;color:#090a0e;font-size:12px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px;
+  transition:transform .22s var(--ease),background .22s var(--ease);
+}
+.btn-solid:hover{background:#eceef2;transform:translateY(-1px)}
+.btn-solid:active{transform:scale(.95)}
+.btn-soft{
+  height:36px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  color:#fff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 12px;
+  transition:transform .22s var(--ease),background .22s var(--ease);
+}
+.btn-soft:hover{background:rgba(255,255,255,.22)}
+.btn-soft:active{transform:scale(.95)}
+.sp-cart{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);display:none}
+.sp-cart.has-items{display:block}
+.sp-cart-list{max-height:112px;overflow-y:auto;display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.sp-item{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:11.5px;background:rgba(255,255,255,.07);padding:6px 8px;border-radius:10px}
+.sp-item-info{min-width:0;flex:1}
+.sp-item-title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp-item-sub{font-size:10px;opacity:.75}
+.sp-qty{display:flex;align-items:center;gap:4px}
+.sp-qty button{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.18);font-weight:700;font-size:12px;display:grid;place-items:center}
+.sp-total-row{display:flex;justify-content:space-between;align-items:baseline;font-size:13px;font-weight:700;margin-bottom:9px}
+.sp-checkout{width:100%;height:36px}
+
+/* 9. Floating Bottom Buy Capsule */
+.buy{
+  position:absolute;
+  left:50%;
+  bottom:4.6vh;
+  transform:translateX(-50%);
+  z-index:60;
+  width:min(740px,calc(100vw - 32px));
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:10px 15px 10px 11px;
+  border-radius:26px;
+  color:#fff;
+}
+.buy .thumb{
+  position:relative;width:58px;height:58px;flex:0 0 58px;border-radius:15px;
+  background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.22),rgba(255,255,255,.06));
+  border:1px solid rgba(255,255,255,.20);overflow:hidden;
+}
+.buy .thumb .g{position:absolute;inset:5px;background-repeat:no-repeat;will-change:transform}
+.buy .info{flex:1 1 auto;min-width:130px;display:flex;flex-direction:column;gap:4px}
+.buy .ln{position:relative;height:1.18em;line-height:1.18;overflow:hidden}
+.buy .ln span{position:absolute;left:0;top:0;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;will-change:transform}
+.buy .bname{font-weight:600;font-size:15.5px;letter-spacing:-.01em}
+.buy .bprice{font-weight:500;font-size:13.5px;color:rgba(255,255,255,.82);font-variant-numeric:tabular-nums}
+.buy .grp{display:flex;flex-direction:column;gap:5px;flex:0 0 auto}
+.buy .lbl{font-weight:500;font-size:11.5px;color:rgba(255,255,255,.76)}
+.buy .clbl{min-width:118px}
+.buy .chips{display:flex;align-items:center;gap:5px}
+.buy .chips button{
+  width:29px;height:29px;border-radius:50%;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.14);
+  color:#fff;font-size:12px;font-weight:600;display:grid;place-items:center;
+  transition:background .25s var(--ease),color .25s var(--ease),transform .2s var(--ease);
+}
+.buy .chips button:hover{background:rgba(255,255,255,.24)}
+.buy .chips button.on{background:#fff;color:#090a0e;border-color:#fff}
+.buy .chips button:active{transform:scale(.88)}
+.buy .dots{display:flex;align-items:center;gap:9px;height:29px}
+.buy .dots button{
+  width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+  transition:box-shadow .25s var(--ease),transform .2s var(--ease);
+}
+.buy .dots button.on{box-shadow:0 0 0 2px #fff,0 0 0 4px rgba(255,255,255,.22);transform:scale(1.08)}
+.buy .dots button:active{transform:scale(.9)}
+.buy-cta{flex:0 0 auto;height:40px;padding:0 18px;white-space:nowrap}
+
+.scroll-cue{
+  position:absolute;left:50%;bottom:.9vh;transform:translateX(-50%);z-index:60;
+  display:inline-flex;align-items:center;gap:8px;padding:4px 14px;border-radius:999px;
+  font-size:11px;font-weight:600;letter-spacing:.05em;color:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  transition:background .25s var(--ease),transform .25s var(--ease),color .25s var(--ease);
+}
+.scroll-cue:hover{background:rgba(255,255,255,.16);color:#fff;transform:translateX(-50%) translateY(-2px)}
+
+/* =====================================================================
+   LOWER HUB: LOGIN GATEWAY + DIRECT CALL-OUT + CREATOR FOOTER
+   ===================================================================== */
+.hub{
+  position:relative;z-index:20;width:100%;padding:72px 20px 64px;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:linear-gradient(180deg,rgba(7,8,12,.72) 0%,rgba(6,7,10,.96) 100%);
+}
+.hub-inner{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.hub-top{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.hub-eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:6px}
+.hub-title{font-size:clamp(24px,3.2vw,36px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.hub-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{border-radius:26px;padding:26px;color:#fff}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.panel-head h3{font-size:20px;font-weight:700;letter-spacing:-.02em}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14)}
+.seg button{padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;color:rgba(255,255,255,.74);transition:background .25s var(--ease),color .25s var(--ease)}
+.seg button.on{background:#fff;color:#090a0e}
+.google-btn{
+  width:100%;height:44px;border-radius:14px;background:#fff;color:#1f1f1f;
+  font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:transform .2s var(--ease),background .2s var(--ease);margin-bottom:16px;
+}
+.google-btn:hover{background:#f2f3f5}
+.google-btn:active{transform:scale(.98)}
+.divider{display:flex;align-items:center;gap:10px;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.5);margin:14px 0}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.14)}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.78)}
+.field input,.field textarea,.field select{
+  width:100%;padding:11px 13px;border-radius:13px;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  color:#fff;font-size:13.5px;outline:none;transition:border-color .2s var(--ease),background .2s var(--ease);
+}
+.field select option{color:#111;background:#fff}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.42)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(255,255,255,.68);background:rgba(255,255,255,.12)}
+.field textarea{min-height:82px;resize:vertical}
+.form-status{margin-top:10px;font-size:12.5px;font-weight:500;min-height:18px;color:#86efac}
+.signed-card{
+  display:none;align-items:center;justify-content:space-between;gap:14px;
+  padding:14px 16px;border-radius:16px;background:rgba(74,222,128,.12);border:1px solid rgba(134,239,172,.35);margin-bottom:14px;
+}
+.signed-card.show{display:flex}
+.signed-info strong{display:block;font-size:14px}
+.signed-info span{font-size:12px;opacity:.82}
+.callout-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.btn-wa{
+  height:42px;border-radius:13px;background:#25D366;color:#072010;font-size:13px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;
+  transition:transform .2s var(--ease),filter .2s var(--ease);
+}
+.btn-wa:hover{filter:brightness(1.06)}
+.btn-wa:active{transform:scale(.97)}
+.btn-call{
+  height:42px;border-radius:13px;background:#fff;color:#090a0e;font-size:13px;font-weight:700;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;
+  transition:transform .2s var(--ease),background .2s var(--ease);
+}
+.btn-call:hover{background:#efefef}
+.btn-call:active{transform:scale(.97)}
+
+.creator{border-radius:28px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:22px}
+.creator-left{display:flex;align-items:center;gap:18px}
+.creator-avatar{width:74px;height:74px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(255,255,255,.65);flex:0 0 74px}
+.creator-meta h4{font-size:20px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.creator-seen-glyph{
+  font-family:"Cairo",sans-serif;font-weight:900;font-size:24px;line-height:1;
+  background:linear-gradient(135deg,#fff,rgba(255,255,255,.55));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.creator-role{font-size:13px;color:rgba(255,255,255,.74);margin-top:2px}
+.creator-contact{display:flex;flex-wrap:wrap;gap:14px;margin-top:8px;font-size:12.5px;color:rgba(255,255,255,.9)}
+.creator-contact a:hover{text-decoration:underline}
+.socials{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.soc-pill{
+  display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:999px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.20);
+  font-size:12.5px;font-weight:600;color:#fff;transition:background .22s var(--ease),transform .2s var(--ease),color .22s var(--ease);
+}
+.soc-pill:hover{background:#fff;color:#090a0e;transform:translateY(-2px)}
+
+/* =====================================================================
+   MODALS: PAYMENT GATEWAY + ADMIN AUTO-MOCKUP STUDIO
+   ===================================================================== */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:90;background:rgba(4,5,8,.76);backdrop-filter:blur(12px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .32s var(--ease);
+}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal-card{
+  width:min(940px,100%);max-height:90vh;overflow-y:auto;overscroll-behavior:contain;border-radius:28px;padding:26px;color:#fff;
+  transform:translateY(16px) scale(.97);transition:transform .38s var(--ease);
+}
+.modal-backdrop.open .modal-card{transform:translateY(0) scale(1)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}
+.modal-head h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.modal-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.12);display:grid;place-items:center;font-size:18px;flex:0 0 36px}
+.modal-close:hover{background:rgba(255,255,255,.24)}
+.gw-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:22px}
+.gw-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px}
+.gw-box h4{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:14px}
+.gw-items{display:flex;flex-direction:column;gap:10px;max-height:210px;overflow-y:auto;margin-bottom:14px}
+.gw-item{display:flex;align-items:center;gap:12px;padding:9px;border-radius:14px;background:rgba(255,255,255,.06)}
+.gw-thumb{width:46px;height:46px;border-radius:10px;background:rgba(255,255,255,.14);position:relative;flex:0 0 46px;overflow:hidden}
+.gw-thumb .g{position:absolute;inset:4px;background-repeat:no-repeat}
+.gw-item-meta{flex:1;min-width:0}
+.gw-item-meta strong{display:block;font-size:13.5px}
+.gw-item-meta span{font-size:11.5px;opacity:.74}
+.promo-row{display:flex;gap:8px;margin-bottom:14px}
+.promo-row input{flex:1;padding:9px 12px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-size:12.5px}
+.sum-line{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;opacity:.84}
+.sum-line.total{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);font-size:16px;font-weight:800;opacity:1}
+.pay-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.pay-btn{
+  padding:10px 8px;border-radius:13px;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.16);
+  font-size:12px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px;transition:all .2s var(--ease);
+}
+.pay-btn small{font-size:10px;font-weight:500;opacity:.75}
+.pay-btn.on{background:#fff;color:#090a0e;border-color:#fff}
+.pay-btn.bkash.on{background:#E2136E;color:#fff;border-color:#ff5ea3}
+.pay-btn.nagad.on{background:#F26522;color:#fff;border-color:#ff9b6a}
+.pay-btn.rocket.on{background:#8C3494;color:#fff;border-color:#c978d1}
+.receipt{display:none;text-align:center;padding:20px 10px}
+.receipt.show{display:block}
+.receipt-icon{width:62px;height:62px;margin:0 auto 14px;border-radius:50%;background:rgba(74,222,128,.18);border:2px solid #4ade80;color:#4ade80;display:grid;place-items:center;font-size:28px;font-weight:800}
+
+.pin-gate{max-width:380px;margin:14px auto;text-align:center}
+.dropzone{border:1.5px dashed rgba(255,255,255,.3);border-radius:18px;padding:20px 16px;text-align:center;background:rgba(255,255,255,.04);transition:background .2s,border-color .2s;margin-bottom:14px}
+.dropzone.over{background:rgba(255,255,255,.12);border-color:#fff}
+.dropzone p{font-size:13px;color:rgba(255,255,255,.82);margin-bottom:10px}
+.preview-stage{display:grid;grid-template-columns:134px 1fr;gap:14px;align-items:center;background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px;margin-bottom:14px}
+.preview-box{height:210px;border-radius:12px;background:radial-gradient(circle at 50% 42%,rgba(255,255,255,.14),rgba(0,0,0,.6));display:grid;place-items:center;overflow:hidden;padding:6px}
+.preview-box img{max-height:100%;max-width:100%;object-fit:contain}
+.batch-queue{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.batch-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:10px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);font-size:11.5px}
+.batch-pill.on{background:#fff;color:#090a0e;font-weight:700}
+.catalog-list{display:flex;flex-direction:column;gap:9px;max-height:390px;overflow-y:auto}
+.cat-row{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.cat-row-thumb{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,.14);position:relative;flex:0 0 42px;overflow:hidden}
+.cat-row-thumb .g{position:absolute;inset:3px;background-repeat:no-repeat}
+.cat-row-info{flex:1;min-width:0}
+.cat-row-info strong{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat-row-info span{font-size:11px;opacity:.72}
+.cat-row-price{display:flex;align-items:center;gap:5px}
+.cat-row-price input{width:56px;padding:5px 6px;border-radius:8px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);font-size:12px;text-align:center}
+.btn-danger{padding:6px 9px;border-radius:8px;background:rgba(239,68,68,.22);color:#fca5a5;font-size:11px;font-weight:700}
+.btn-danger:hover{background:rgba(239,68,68,.42);color:#fff}
+
+/* 10. Lightweight GPU-Composited 58px Glass Cursor (Hero Only, ZERO Backdrop-Blur Lag!) */
+.cur{
+  position:fixed;top:0;left:0;width:58px;height:58px;margin:-29px 0 0 -29px;
+  z-index:110;pointer-events:none;opacity:0;transition:opacity .25s var(--ease);will-change:transform;
+}
+.cur.vis{opacity:1}
+.cur .ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:1.5px solid rgba(255,255,255,.92);background:rgba(255,255,255,.10);
+  transition:transform .38s var(--ease),background .38s var(--ease);
+}
+.cur .dot{
+  position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff;
+  transition:transform .32s var(--ease),opacity .32s var(--ease);
+}
+.cur .t{
+  position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:10px;letter-spacing:.12em;white-space:nowrap;
+  opacity:0;transform:scale(.6);transition:transform .34s var(--ease),opacity .34s var(--ease);
+}
+.cur .t-try{color:#090a0e}
+.cur .t-drag{color:#fff}
+.cur.try .ring{transform:scale(1.48);background:rgba(255,255,255,.95)}
+.cur.try .dot{opacity:0;transform:scale(0)}
+.cur.try .t-try{opacity:1;transform:scale(1)}
+.cur.drag .ring{transform:scale(1.18)}
+.cur.drag .dot{opacity:0;transform:scale(0)}
+.cur.drag .t-drag{opacity:1;transform:scale(1)}
+.cur.btn .ring{transform:scale(.58)}
+.cur.down .ring{transform:scale(1.04)}
+@media(pointer:coarse){.cur{display:none}}
+
+.toast{
+  position:fixed;top:86px;left:50%;z-index:130;padding:10px 18px;border-radius:999px;
+  font-size:13px;font-weight:600;color:#fff;transform:translate(-50%,-12px);opacity:0;pointer-events:none;
+  transition:transform .32s var(--ease),opacity .32s var(--ease);
+}
+.toast.show{transform:translate(-50%,0);opacity:1}
+
+/* Responsive */
+@media(max-width:1180px){
+  .price-pill{display:none}
+  .hub-grid,.gw-grid{grid-template-columns:1fr}
+}
+@media(max-width:767px){
+  :root{--MH:min(58vh,96vw);--CW:min(30vw,164px)}
+  .ghost{top:11vh}
+  .seen-svg{width:76vw}
+  .model{bottom:18vh}
+  .tabs{max-width:calc(100vw - 20px);overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{height:32px;padding:0 13px;font-size:12px}
+  .tabs .pill{height:32px}
+  .price-pill{top:auto;bottom:calc(4.6vh + 162px);right:10px;height:38px;padding:0 12px}
+  .rail{left:10px;top:auto;bottom:calc(4.6vh + 162px);transform:none;padding:6px;gap:6px}
+  .rail button{width:34px;height:34px}
+  .rail svg{width:17px;height:17px}
+  .arrow{display:none}
+  .side-price{width:calc(100vw - 24px);right:12px;top:auto;bottom:calc(4.6vh + 158px)}
+  .buy{flex-wrap:wrap;gap:10px 14px;padding:11px 13px;border-radius:20px;bottom:4.6vh}
+  .buy .thumb{width:48px;height:48px;flex:0 0 48px;border-radius:12px}
+  .buy .info{flex:1 1 calc(100% - 165px);min-width:110px}
+  .buy .grp{flex:1 1 auto}
+  .buy .clbl{min-width:0}
+  .field-grid,.callout-actions,.preview-stage{grid-template-columns:1fr}
+  .pay-methods{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body class="spatial-cur">
+
+<!-- ZERO-LAG ULTRA-SHARP DARK LUXURY STUDIO STAGE -->
+<div class="studio-bg" aria-hidden="true">
+  <div class="studio-beam"></div>
+  <div class="studio-grid"></div>
+  <div class="studio-horizon"></div>
+</div>
+
+<!-- ===============================================================
+     HERO: LOCKED 60/120FPS SPATIAL T-SHIRT TRY-ON
+     =============================================================== -->
+<section class="hero" id="hero">
+  <!-- Crisp Infinite-Resolution Vector Arabic Seen (س) Monogram -->
+  <div class="ghost" id="ghost" aria-hidden="true">
+    <svg class="seen-svg" id="seenSvg" viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="seenPlat" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="55%" stop-color="#cfdcf2"/>
+          <stop offset="100%" stop-color="#7c8aa3"/>
+        </linearGradient>
+      </defs>
+      <g opacity="0.22">
+        <text
+          x="50%"
+          y="50%"
+          text-anchor="middle"
+          dominant-baseline="central"
+          font-family="'Cairo', 'Segoe UI', sans-serif"
+          font-weight="900"
+          font-size="330"
+          fill="url(#seenPlat)"
+        >&#x0633;</text>
+      </g>
+    </svg>
+  </div>
+
+  <nav class="tabs glass" id="tabs" aria-label="T-Shirt Collections">
+    <div class="pill" id="pill"></div>
+    <button type="button" class="on" data-target="all">All Tees</button>
+    <button type="button" data-target="0">Essential</button>
+    <button type="button" data-target="1">Athletic Fit</button>
+    <button type="button" data-target="3">Oversized</button>
+    <button type="button" data-target="2">Limited Drop</button>
+  </nav>
+
+  <!-- Compact Top-Right Live Price & Bag Pill (Never overlaps 3D cards!) -->
+  <button type="button" class="price-pill glass" id="pricePill" aria-label="Toggle live pricing and bag drawer">
+    <span class="pp-usd" id="ppUsd">$45</span>
+    <span class="pp-bdt" id="ppBdt">৳1,490</span>
+    <span class="pp-sep"></span>
+    <span class="pp-bag" id="ppBag">Bag · 0</span>
+  </button>
+
+  <aside class="rail glass" id="rail" aria-label="Store Tools">
+    <button type="button" class="on" id="railTry" aria-label="Spatial Try-On" title="Spatial Try-On">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M16.2 3.5 21 6.4a1 1 0 0 1 .35 1.38l-1.9 3.16a1 1 0 0 1-1.36.35L16.5 10.4V19.5A1.5 1.5 0 0 1 15 21H9a1.5 1.5 0 0 1-1.5-1.5V10.4l-1.59.89a1 1 0 0 1-1.36-.35l-1.9-3.16A1 1 0 0 1 3 6.4l4.8-2.9a1 1 0 0 1 1.07.03c.88.62 1.98.97 3.13.97s2.25-.35 3.13-.97a1 1 0 0 1 1.07-.03Z"/>
+      </svg>
+    </button>
+    <button type="button" id="railCart" aria-label="Pricing & Cart" title="Live Pricing & Bag">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="20" r="1.4"/>
+        <circle cx="17.5" cy="20" r="1.4"/>
+        <path d="M3 4h2.4l2.1 10.6a1.5 1.5 0 0 0 1.47 1.2h8.6a1.5 1.5 0 0 0 1.45-1.13L20.5 8H6.3"/>
+      </svg>
+      <span class="badge" id="cartBadge">0</span>
+    </button>
+    <button type="button" id="railGateway" aria-label="Payment Gateway" title="Checkout & Payment Gateway">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2.5" y="5" width="19" height="14" rx="3"/>
+        <path d="M2.5 10h19M7 15h4"/>
+      </svg>
+    </button>
+    <button type="button" id="railAdmin" aria-label="Admin Auto-Mockup Studio" title="Admin Studio: Upload &amp; Manage T-Shirts">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12m0-12-4 4m4-4 4 4"/>
+        <path d="M4 15v3.5A2.5 2.5 0 0 0 6.5 21h11a2.5 2.5 0 0 0 2.5-2.5V15"/>
+      </svg>
+    </button>
+    <button type="button" id="railProfile" aria-label="Login & Creator Contact" title="Account Login & Contact Jayed">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="8.2" r="3.6"/>
+        <path d="M5 19.8a7.2 7.2 0 0 1 14 0"/>
+      </svg>
+    </button>
+  </aside>
+
+  <button type="button" class="arrow prev glass" id="prev" aria-label="Previous T-shirt">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M10 3.2 5.2 8 10 12.8"/>
+    </svg>
+  </button>
+  <button type="button" class="arrow next glass" id="next" aria-label="Next T-shirt">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M6 3.2 10.8 8 6 12.8"/>
+    </svg>
+  </button>
+
+  <!-- Slide-Out Side Pricing & Live Bag Drawer (Starts collapsed so cards stay 100% clean!) -->
+  <aside class="side-price glass-dark collapsed" id="sidePrice" aria-label="Live Pricing & Bag Drawer">
+    <div class="sp-head">
+      <span class="sp-kicker">Live Tee Pricing</span>
+      <span class="sp-count" id="spCount">1 / 5</span>
+      <button type="button" class="sp-close" id="spClose" aria-label="Close pricing panel">&times;</button>
+    </div>
+    <div id="spPriceBox">
+      <div class="sp-price-row">
+        <span class="sp-usd" id="spUsd">$45</span>
+        <span class="sp-bdt" id="spBdt">৳1,490</span>
+      </div>
+      <div class="sp-meta" id="spMeta">Essential White Tee · Athletic Fit</div>
+      <div class="sp-spec">
+        <span class="sp-chip" id="spFitChip">240 GSM Combed Cotton</span>
+        <span class="sp-chip" id="spSizeChip">Size M</span>
+        <span class="sp-chip" id="spColorChip">Pure White</span>
+      </div>
+    </div>
+    <div class="sp-actions">
+      <button type="button" class="btn-solid" id="spAddBtn">+ Add to Bag</button>
+      <button type="button" class="btn-soft" id="spBuyBtn">Buy Now</button>
+    </div>
+    <div class="sp-cart" id="spCart">
+      <div class="sp-cart-list" id="spCartList"></div>
+      <div class="sp-total-row">
+        <span>Total</span>
+        <span id="spCartTotal">$0 · ৳0</span>
+      </div>
+      <button type="button" class="btn-solid sp-checkout" id="spCheckoutBtn">Proceed to Payment Gateway &rarr;</button>
+    </div>
+  </aside>
+
+  <main class="stage" id="stage">
+    <div class="arc" id="arc"></div>
+  </main>
+
+  <div class="model-aura" aria-hidden="true"></div>
+  <div class="model" id="model" aria-hidden="true">
+    <div id="mCur"></div>
+    <div id="mNext"></div>
+    <div class="grid" id="grid"></div>
+    <div class="scan" id="scan"></div>
+  </div>
+
+  <section class="buy glass" id="buy" aria-label="Selected T-shirt controls">
+    <div class="thumb"><div class="g" id="thumbG"></div></div>
+    <div class="info">
+      <div class="bname ln" id="bName"></div>
+      <div class="bprice ln" id="bPrice"></div>
+    </div>
+    <div class="grp">
+      <div class="lbl">Size</div>
+      <div class="chips" id="sizes">
+        <button type="button">S</button>
+        <button type="button" class="on">M</button>
+        <button type="button">L</button>
+        <button type="button">XL</button>
+      </div>
+    </div>
+    <div class="grp">
+      <div class="lbl ln clbl" id="bColor"></div>
+      <div class="dots" id="dots"></div>
+    </div>
+    <button type="button" class="btn-solid buy-cta" id="buyAddBtn">Add · $45</button>
+  </section>
+
+  <a href="#account-hub" class="scroll-cue" id="scrollCue">
+    <span>Login Gateway &middot; Contact Jayed &middot; Admin Studio</span>
+    <span>&darr;</span>
+  </a>
+</section>
+
+<!-- ===============================================================
+     BOTTOM HUB: LOGIN GATEWAY, GOOGLE CALL-OUT & CREATOR SOCIALS
+     =============================================================== -->
+<section class="hub" id="account-hub" aria-label="Account Login and Creator Hub">
+  <div class="hub-inner">
+    <div class="hub-top">
+      <div>
+        <div class="hub-eyebrow">SEEN VirtualFit T-Shirt Store &middot; Customer Access</div>
+        <h2 class="hub-title">Account Login Gateway &amp; Direct Connect</h2>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button type="button" class="btn-soft" id="hubAdminBtn">Admin Auto-Mockup Studio</button>
+        <a href="#hero" class="btn-solid">&uarr; Back to Spatial Try-On</a>
+      </div>
+    </div>
+
+    <div class="hub-grid">
+      <div class="panel glass-dark">
+        <div class="panel-head">
+          <h3>Customer Login Gateway</h3>
+          <div class="seg" id="authSeg">
+            <button type="button" class="on" data-mode="login">Sign In</button>
+            <button type="button" data-mode="signup">Create Account</button>
+          </div>
+        </div>
+
+        <div class="signed-card" id="signedCard">
+          <div class="signed-info">
+            <strong id="signedName">Signed in</strong>
+            <span id="signedSub"></span>
+          </div>
+          <button type="button" class="btn-soft" id="signOutBtn">Sign Out</button>
+        </div>
+
+        <button type="button" class="google-btn" id="googleLoginBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#EA4335" d="M12 10.2v3.9h5.4c-.24 1.26-.96 2.33-2.04 3.04l3.3 2.56c1.92-1.77 3.04-4.38 3.04-7.48 0-.72-.06-1.42-.18-2.02H12z"/>
+            <path fill="#34A853" d="M12 22c2.76 0 5.08-.92 6.77-2.48l-3.3-2.56c-.92.62-2.08.99-3.47.99-2.67 0-4.93-1.8-5.74-4.22H2.85v2.65A10.22 10.22 0 0 0 12 22z"/>
+            <path fill="#FBBC05" d="M6.26 13.73A6.12 6.12 0 0 1 5.94 12c0-.6.11-1.18.32-1.73V7.62H2.85A10.2 10.2 0 0 0 1.78 12c0 1.65.4 3.21 1.07 4.38l3.41-2.65z"/>
+            <path fill="#4285F4" d="M12 6.05c1.5 0 2.85.52 3.91 1.53l2.93-2.93C17.07 2.99 14.76 2 12 2 8.01 2 4.56 4.29 2.85 7.62l3.41 2.65C7.07 7.85 9.33 6.05 12 6.05z"/>
+          </svg>
+          <span>Continue with Google Account</span>
+        </button>
+
+        <div class="divider">or with email &amp; phone</div>
+
+        <form id="authForm">
+          <div class="field-grid" id="signupNameRow" style="display:none">
+            <div class="field">
+              <label for="authName">Full Name</label>
+              <input id="authName" type="text" placeholder="Your full name">
+            </div>
+            <div class="field">
+              <label for="authPhone">Phone Number</label>
+              <input id="authPhone" type="tel" placeholder="+880 1XXX-XXXXXX">
+            </div>
+          </div>
+          <div class="field">
+            <label for="authEmail">Google / Email Address</label>
+            <input id="authEmail" type="email" required placeholder="yourname@gmail.com">
+          </div>
+          <div class="field">
+            <label for="authPass">Password</label>
+            <input id="authPass" type="password" required placeholder="Enter password" minlength="4">
+          </div>
+          <button type="submit" class="btn-solid" style="width:100%;height:42px" id="authSubmitBtn">Sign In to SEEN Store</button>
+          <div class="form-status" id="authStatus"></div>
+        </form>
+      </div>
+
+      <div class="panel glass-dark">
+        <div class="panel-head">
+          <h3>Call Out &amp; Connect with Jayed</h3>
+          <span class="sp-chip" style="background:rgba(37,211,102,.18);color:#9bf7be">Live Support</span>
+        </div>
+        <p style="font-size:13px;color:rgba(255,255,255,.76);line-height:1.5;margin-bottom:16px">
+          Want bulk T-shirt orders, custom sizing, or a spatial virtual try-on e-commerce store like this? Enter your Google account and phone number to call out or reach Jayed directly.
+        </p>
+
+        <form id="contactForm">
+          <div class="field-grid">
+            <div class="field">
+              <label for="cGoogle">Your Google Account</label>
+              <input id="cGoogle" type="email" required placeholder="you@gmail.com">
+            </div>
+            <div class="field">
+              <label for="cPhone">Your Phone Number</label>
+              <input id="cPhone" type="tel" required placeholder="+880 1XXX-XXXXXX">
+            </div>
+          </div>
+          <div class="field">
+            <label for="cMsg">Message / T-Shirt Order Inquiry</label>
+            <textarea id="cMsg" placeholder="Hi Jayed, I'd like to connect regarding SEEN T-shirts..."></textarea>
+          </div>
+          <div class="callout-actions">
+            <button type="submit" class="btn-wa" id="waSendBtn">WhatsApp Call-Out</button>
+            <button type="button" class="btn-call" id="directCallBtn">Email / Call Jayed</button>
+          </div>
+          <div class="form-status" id="contactStatus"></div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="creator glass-dark" aria-label="Created by Jayed Jaman Seen">
+      <div class="creator-left">
+        <img src="assets/jayed-profile.jpg" alt="Jayed Jaman Seen" class="creator-avatar">
+        <div class="creator-meta">
+          <h4>
+            <span>Jayed Jaman Seen</span>
+            <span class="creator-seen-glyph" aria-hidden="true">&#x0633;</span>
+          </h4>
+          <div class="creator-role">WordPress, WooCommerce &amp; AI Web Designer &middot; Barishal, Bangladesh (GMT+6)</div>
+          <div class="creator-contact">
+            <a href="mailto:thunderseen@gmail.com">thunderseen@gmail.com</a>
+            <a href="tel:+8801307758119">+880 1307-758119</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="socials" aria-label="Jayed's Social Media">
+        <a class="soc-pill" href="https://wa.me/8801307758119" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a class="soc-pill" href="https://www.linkedin.com/in/jayed-jaman-seen-b540b8334/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="soc-pill" href="https://github.com/JJSEEN" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="soc-pill" href="https://x.com/JayedJamanSeen" target="_blank" rel="noopener noreferrer">X</a>
+        <a class="soc-pill" href="https://www.fiverr.com/jayedjaman_seen?public_mode=true" target="_blank" rel="noopener noreferrer">Fiverr</a>
+        <a class="soc-pill" href="https://www.freelancer.com.bd/u/jayedjamans" target="_blank" rel="noopener noreferrer">Freelancer</a>
+        <button type="button" class="soc-pill" id="footerAdminBtn" title="Admin Studio (Ctrl+Shift+A)">Admin</button>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<!-- ===============================================================
+     MODAL 1: E-COMMERCE PAYMENT GATEWAY
+     =============================================================== -->
+<div class="modal-backdrop" id="gwModal" role="dialog" aria-modal="true" aria-labelledby="gwTitle">
+  <div class="modal-card glass-dark">
+    <div class="modal-head">
+      <div>
+        <div class="hub-eyebrow" style="margin-bottom:3px">SEEN Secure E-Commerce Checkout</div>
+        <h2 id="gwTitle">Payment Gateway</h2>
+      </div>
+      <button type="button" class="modal-close" id="gwClose" aria-label="Close payment gateway">&times;</button>
+    </div>
+
+    <div class="gw-grid" id="gwBody">
+      <div class="gw-box">
+        <h4>Order Summary</h4>
+        <div class="gw-items" id="gwItems"></div>
+        <div class="promo-row">
+          <input type="text" id="promoInput" placeholder="Promo code (try JAYED10)">
+          <button type="button" class="btn-soft" id="promoApply">Apply</button>
+        </div>
+        <div class="sum-line"><span>Subtotal</span><span id="gwSub">$0 · ৳0</span></div>
+        <div class="sum-line" id="gwDiscRow" style="display:none;color:#86efac"><span>Discount (JAYED10)</span><span id="gwDisc">-$0</span></div>
+        <div class="sum-line"><span>Express Delivery (BD)</span><span id="gwShip">৳120</span></div>
+        <div class="sum-line total"><span>Total Payable</span><span id="gwTotal">$0 · ৳0</span></div>
+      </div>
+
+      <div class="gw-box">
+        <h4>Select Payment Method</h4>
+        <div class="pay-methods" id="payMethods">
+          <button type="button" class="pay-btn bkash on" data-pay="bKash">bKash<small>Instant</small></button>
+          <button type="button" class="pay-btn nagad" data-pay="Nagad">Nagad<small>Instant</small></button>
+          <button type="button" class="pay-btn rocket" data-pay="Rocket">Rocket<small>DBBL</small></button>
+          <button type="button" class="pay-btn" data-pay="Card">Visa / MC<small>SSLCommerz</small></button>
+          <button type="button" class="pay-btn" data-pay="COD">Cash<small>On Delivery</small></button>
+        </div>
+
+        <form id="gwForm">
+          <div class="field-grid">
+            <div class="field">
+              <label for="gwName">Receiver Name</label>
+              <input id="gwName" type="text" required placeholder="Full name">
+            </div>
+            <div class="field">
+              <label for="gwPhone">Phone / Wallet No.</label>
+              <input id="gwPhone" type="tel" required placeholder="+880 1XXX-XXXXXX">
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
+              <label for="gwCity">District</label>
+              <select id="gwCity">
+                <option>Dhaka</option>
+                <option>Barishal</option>
+                <option>Chattogram</option>
+                <option>Sylhet</option>
+                <option>Rajshahi</option>
+                <option>Khulna</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="gwAddr">Delivery Address</label>
+              <input id="gwAddr" type="text" required placeholder="House, Road, Area">
+            </div>
+          </div>
+          <div id="gwCardFields" style="display:none">
+            <div class="field-grid">
+              <div class="field">
+                <label for="gwCardNum">Card Number</label>
+                <input id="gwCardNum" type="text" placeholder="4532 •••• •••• 8810">
+              </div>
+              <div class="field">
+                <label for="gwCardExp">Expiry / CVC</label>
+                <input id="gwCardExp" type="text" placeholder="08/29 · 424">
+              </div>
+            </div>
+          </div>
+          <div id="gwWalletHint" style="font-size:12px;color:rgba(255,255,255,.78);margin-bottom:12px">
+            Merchant bKash: <strong>+880 1307-758119</strong> &middot; Instant SSL-verified confirmation.
+          </div>
+          <button type="submit" class="btn-solid" style="width:100%;height:44px;font-size:14px" id="gwPayBtn">Confirm &amp; Pay Now</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="receipt" id="gwReceipt">
+      <div class="receipt-icon">&check;</div>
+      <h3 style="font-size:22px;margin-bottom:6px">Order Confirmed!</h3>
+      <p style="font-size:13.5px;opacity:.85;margin-bottom:16px" id="rcptText"></p>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+        <a id="rcptWaLink" href="https://wa.me/8801307758119" target="_blank" rel="noopener noreferrer" class="btn-wa">Send Order Receipt on WhatsApp</a>
+        <button type="button" class="btn-solid" id="rcptDoneBtn">Continue Try-On</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===============================================================
+     MODAL 2: ADMIN PANEL + AUTOMATIC T-SHIRT MOCKUP STUDIO
+     =============================================================== -->
+<div class="modal-backdrop" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+  <div class="modal-card glass-dark">
+    <div class="modal-head">
+      <div>
+        <div class="hub-eyebrow" style="margin-bottom:3px">Automated E-Commerce Product Studio &middot; Unlimited T-Shirts</div>
+        <h2 id="adminTitle">Admin Panel &amp; Auto-Mockup Generator</h2>
+      </div>
+      <button type="button" class="modal-close" id="adminClose" aria-label="Close admin studio">&times;</button>
+    </div>
+
+    <div class="pin-gate" id="adminPinGate">
+      <p style="font-size:13.5px;opacity:.82;margin-bottom:14px">
+        Enter your Admin Password to batch-upload T-shirts, auto-generate waist-up mockups on your model, and manage live pricing.
+      </p>
+      <form id="pinForm" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+        <input type="password" id="pinInput" placeholder="Enter admin password" autocomplete="current-password" style="width:220px;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);text-align:center;font-weight:600;letter-spacing:.08em">
+        <button type="submit" class="btn-solid" style="height:42px;padding:0 20px">Unlock Studio</button>
+      </form>
+      <div class="form-status" id="pinErr" style="color:#fca5a5"></div>
+    </div>
+
+    <div id="adminBody" style="display:none">
+      <div class="gw-grid">
+        <div class="gw-box">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px">
+            <h4 style="margin:0">Upload T-Shirt(s) &rarr; Auto Mockup</h4>
+            <button type="button" class="btn-soft" id="demoAutoBtn" style="height:28px;font-size:11px;padding:0 12px;white-space:nowrap">+ Try Demo Tee</button>
+          </div>
+
+          <div class="dropzone" id="dropzone">
+            <p><strong>Drop 1 or multiple T-shirt photos here</strong><br><small style="opacity:.75">PNG or JPG — background auto-removed &amp; fitted onto your HD model automatically</small></p>
+            <input type="file" id="teeFileInput" accept="image/*" multiple style="display:none">
+            <button type="button" class="btn-solid" id="pickFilesBtn">Choose T-Shirt Photo(s)</button>
+          </div>
+
+          <div class="batch-queue" id="batchQueue"></div>
+
+          <div class="preview-stage" id="previewStage" style="display:none">
+            <div class="preview-box" title="Auto-Generated HD Model Mockup">
+              <img id="prevModelImg" alt="Auto mockup preview">
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+                <div style="width:54px;height:54px;border-radius:12px;background:rgba(255,255,255,.12);display:grid;place-items:center;padding:4px;overflow:hidden">
+                  <img id="prevCardImg" alt="Garment card preview" style="max-width:100%;max-height:100%;object-fit:contain">
+                </div>
+                <div style="font-size:12px;line-height:1.4">
+                  <strong>Auto-Mockup Ready</strong><br>
+                  <span style="opacity:.75">Fitted to your torso + shaded</span>
+                </div>
+              </div>
+
+              <div class="field" style="margin-bottom:8px">
+                <label for="admMode">Mockup Mode</label>
+                <select id="admMode">
+                  <option value="full">Auto-Wrap Full T-Shirt Photo</option>
+                  <option value="graphic">Chest Graphic + Custom Tee Color</option>
+                </select>
+              </div>
+              <div class="field-grid" id="admColorTintRow" style="display:none;margin-bottom:6px">
+                <div class="field" style="margin-bottom:0">
+                  <label for="admBaseHex">Base Tee Color</label>
+                  <input id="admBaseHex" type="color" value="#7f1d1d" style="height:36px;padding:3px">
+                </div>
+                <div class="field" style="margin-bottom:0">
+                  <label for="admBgStrip">Auto Strip BG</label>
+                  <select id="admBgStrip">
+                    <option value="1">Yes (Auto Clean)</option>
+                    <option value="0">Keep Original</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <form id="publishTeeForm">
+            <div class="field">
+              <label for="admName">Product Name</label>
+              <input id="admName" type="text" required placeholder="e.g. SEEN Crimson Drop Tee">
+            </div>
+            <div class="field-grid">
+              <div class="field">
+                <label for="admUsd">Price (USD $)</label>
+                <input id="admUsd" type="number" min="1" value="54" required>
+              </div>
+              <div class="field">
+                <label for="admBdt">Price (BDT ৳)</label>
+                <input id="admBdt" type="number" min="50" value="1750" required>
+              </div>
+            </div>
+            <div class="field-grid">
+              <div class="field">
+                <label for="admFit">Fit / Collection</label>
+                <select id="admFit">
+                  <option>Athletic Fit</option>
+                  <option>Sculpted Fit</option>
+                  <option>Oversized Fit</option>
+                  <option>Limited Drop</option>
+                  <option>Essential</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="admFabric">Fabric GSM</label>
+                <input id="admFabric" type="text" value="250 GSM Heavy Cotton">
+              </div>
+            </div>
+            <div class="field-grid">
+              <div class="field">
+                <label for="admColorName">Primary Color Name</label>
+                <input id="admColorName" type="text" value="Custom Edition">
+              </div>
+              <div class="field">
+                <label for="admSwatchHex">Swatch Color</label>
+                <input id="admSwatchHex" type="color" value="#b91c1c" style="height:40px;padding:4px">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <button type="submit" class="btn-solid" style="height:42px" id="publishOneBtn">Publish to Live Store</button>
+              <button type="button" class="btn-soft" style="height:42px" id="publishAllBtn" disabled>Publish All Batch (0)</button>
+            </div>
+            <div class="form-status" id="admStatus"></div>
+          </form>
+        </div>
+
+        <div class="gw-box">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <h4 style="margin:0">Live Store Catalog (<span id="catTotalCount">5</span> Tees)</h4>
+            <button type="button" class="btn-soft" id="resetCatBtn" style="height:28px;font-size:11px;padding:0 10px">Reset Defaults</button>
+          </div>
+          <p style="font-size:12px;opacity:.74;margin-bottom:12px">
+            Edit prices live, jump directly to any T-shirt on the 3D try-on stage, or remove custom uploads. Auto-saved in your browser.
+          </p>
+          <div class="catalog-list" id="catalogList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast glass-dark" id="toast" role="status" aria-live="polite"></div>
+
+<div class="cur" id="cur" aria-hidden="true">
+  <div class="ring"></div>
+  <div class="dot"></div>
+  <div class="t t-try">TRY ON</div>
+  <div class="t t-drag">DRAG</div>
+</div>
+
+<script>
+(() => {
+  const DEFAULT_ITEMS = [
+    {
+      id:"tee-white",
+      n:"Essential White Tee",
+      p:45,
+      bdt:1490,
+      fit:"Athletic Fit",
+      fabric:"240 GSM Combed Cotton",
+      g:[0,0],
+      m:0,
+      c:[["Pure White","#f4f2ee"],["Bone","#e5dfd3"],["Ash","#c9c7c2"],["Charcoal","#3b3c3f"]]
+    },
+    {
+      id:"tee-black",
+      n:"Obsidian Muscle Tee",
+      p:52,
+      bdt:1690,
+      fit:"Sculpted Fit",
+      fabric:"250 GSM Stretch Cotton",
+      g:[50,0],
+      m:25,
+      c:[["Obsidian","#18181a"],["Graphite","#36373b"],["Slate","#5d626b"],["Espresso","#3b2d26"]]
+    },
+    {
+      id:"tee-ringer",
+      n:"Street Ringer Tee",
+      p:55,
+      bdt:1790,
+      fit:"Limited Drop",
+      fabric:"230 GSM Rib-Trim Cotton",
+      g:[100,0],
+      m:50,
+      c:[["White / Black","#f4f2ee"],["Cream / Navy","#efe6d3"],["Grey / Red","#c9c7c2"],["White / Green","#e9efe8"]]
+    },
+    {
+      id:"tee-olive",
+      n:"Olive Oversized Tee",
+      p:58,
+      bdt:1890,
+      fit:"Oversized Fit",
+      fabric:"280 GSM Heavy Drop-Shoulder",
+      g:[0,100],
+      m:75,
+      c:[["Olive Sage","#767d60"],["Sand","#d6c7ae"],["Forest","#33463a"],["Washed Black","#262628"]]
+    },
+    {
+      id:"tee-navy",
+      n:"Midnight Navy Tee",
+      p:49,
+      bdt:1590,
+      fit:"Athletic Fit",
+      fabric:"240 GSM Supima Blend",
+      g:[50,100],
+      m:100,
+      c:[["Midnight Navy","#1e2a45"],["Cobalt","#2e4f8a"],["Steel Blue","#6e83a3"],["Obsidian","#1b1c20"]]
+    }
+  ];
+
+  // Exact 6'0" retina waist-up torso coordinates inside 480x836 waist-base.png
+  const MODEL_W = 480, MODEL_H = 836;
+  const TORSO = { x: 25, y: 232, w: 437, h: 524 };
+
+  let ITEMS = DEFAULT_ITEMS.map(x => ({ ...x, c: x.c.map(col => [...col]) }));
+
+  const mod = (n, m) => ((n % m) + m) % m;
+  const $ = id => document.getElementById(id);
+
+  const heroEl = $('hero');
+  const ghostEl = $('ghost');
+  const seenSvg = $('seenSvg');
+  const tabsEl = $('tabs');
+  const pillEl = $('pill');
+  const railEl = $('rail');
+  const stageEl = $('stage');
+  const arcEl = $('arc');
+  const mCur = $('mCur');
+  const mNext = $('mNext');
+  const gridEl = $('grid');
+  const scanEl = $('scan');
+  const thumbG = $('thumbG');
+  const bName = $('bName');
+  const bPrice = $('bPrice');
+  const bColor = $('bColor');
+  const sizesEl = $('sizes');
+  const dotsEl = $('dots');
+  const curEl = $('cur');
+  const sidePriceEl = $('sidePrice');
+  const pricePill = $('pricePill');
+  const ppUsd = $('ppUsd');
+  const ppBdt = $('ppBdt');
+  const ppBag = $('ppBag');
+  const spUsd = $('spUsd');
+  const spBdt = $('spBdt');
+  const spMeta = $('spMeta');
+  const spCount = $('spCount');
+  const spFitChip = $('spFitChip');
+  const spSizeChip = $('spSizeChip');
+  const spColorChip = $('spColorChip');
+  const spCart = $('spCart');
+  const spCartList = $('spCartList');
+  const spCartTotal = $('spCartTotal');
+  const cartBadge = $('cartBadge');
+  const toastEl = $('toast');
+
+  const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reduced = mqReduce.matches;
+  mqReduce.addEventListener('change', e => {
+    reduced = e.matches;
+    if (reduced) { intro = 1; pos = target; }
+  });
+
+  let selectedSize = 'M';
+  let selectedColorName = ITEMS[0].c[0][0];
+  let cart = [];
+  let promoApplied = false;
+  let payMethod = 'bKash';
+
+  let toastTimer = null;
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600);
+  }
+
+  /* =========================================================================
+     INDEXEDDB PERSISTENCE
+     ========================================================================= */
+  const DB_NAME = 'seen_virtualfit_v3_db';
+  const DB_STORE = 'catalog';
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject(new Error('No IndexedDB'));
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => {
+        if (!req.result.objectStoreNames.contains(DB_STORE)) {
+          req.result.createObjectStore(DB_STORE);
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  async function saveCatalogToDB() {
+    try {
+      const db = await openDB();
+      await new Promise((res, rej) => {
+        const tx = db.transaction(DB_STORE, 'readwrite');
+        tx.objectStore(DB_STORE).put(ITEMS, 'items');
+        tx.oncomplete = res;
+        tx.onerror = rej;
+      });
+    } catch (_) {}
+  }
+  async function loadCatalogFromDB() {
+    try {
+      const db = await openDB();
+      const saved = await new Promise((res, rej) => {
+        const tx = db.transaction(DB_STORE, 'readonly');
+        const req = tx.objectStore(DB_STORE).get('items');
+        req.onsuccess = () => res(req.result);
+        req.onerror = () => rej(req.error);
+      });
+      if (Array.isArray(saved) && saved.length > 0) ITEMS = saved;
+    } catch (_) {}
+  }
+
+  function applyGarmentStyle(el, item) {
+    if (item.customCard) {
+      el.style.backgroundImage = `url("${item.customCard}")`;
+      el.style.backgroundSize = 'contain';
+      el.style.backgroundPosition = 'center center';
+    } else {
+      el.style.backgroundImage = 'var(--garm)';
+      el.style.backgroundSize = '300% 200%';
+      el.style.backgroundPosition = `${item.g[0]}% ${item.g[1]}%`;
+    }
+  }
+
+  function applyModelStyle(el, item) {
+    if (item.customModel) {
+      el.style.backgroundImage = `url("${item.customModel}")`;
+      el.style.backgroundSize = '100% 100%';
+      el.style.backgroundPosition = 'center bottom';
+    } else {
+      el.style.backgroundImage = 'var(--model)';
+      el.style.backgroundSize = '500% 100%';
+      el.style.backgroundPosition = `${item.m}% 100%`;
+    }
+  }
+
+  /* =========================================================================
+     LAYOUT METRICS & 3D T-SHIRT ARC
+     ========================================================================= */
+  let W = window.innerWidth;
+  let H = window.innerHeight;
+  let XS = [];
+  let cards = [];
+  let ARC_COUNT = 10;
+
+  function measure() {
+    W = window.innerWidth;
+    H = window.innerHeight;
+    const phone = W <= 767;
+    const cw = phone ? Math.min(W * .30, 164) : Math.min(W * .146, H * .32);
+    document.documentElement.style.setProperty('--CW', cw + 'px');
+    const stops = phone ? [0, .36, .5, .56, .6, .62] : [0, .218, .348, .434, .492, .522];
+    XS = stops.map(v => v * W);
+    positionPill(true);
+  }
+
+  function xAt(a) {
+    const i = Math.min(Math.floor(a), XS.length - 2);
+    const f = Math.min(1, a - i);
+    return XS[i] + (XS[i + 1] - XS[i]) * f;
+  }
+
+  function rebuildArc() {
+    arcEl.innerHTML = '';
+    cards = [];
+    const n = ITEMS.length;
+    const reps = n < 10 ? Math.ceil(10 / n) : 1;
+    ARC_COUNT = n * reps;
+
+    for (let i = 0; i < ARC_COUNT; i++) {
+      const item = ITEMS[i % n];
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.dataset.i = i;
+
+      const g = document.createElement('div');
+      g.className = 'g';
+      applyGarmentStyle(g, item);
+
+      const nm = document.createElement('div');
+      nm.className = 'nm';
+      nm.textContent = item.n;
+
+      const pr = document.createElement('div');
+      pr.className = 'pr';
+      pr.textContent = `$${item.p}`;
+
+      const sheen = document.createElement('div');
+      sheen.className = 'sheen';
+
+      el.append(g, nm, pr, sheen);
+      arcEl.appendChild(el);
+
+      let sheenAnim = null;
+      el.addEventListener('pointerenter', () => {
+        if (reduced) return;
+        if (sheenAnim) sheenAnim.cancel();
+        sheenAnim = sheen.animate(
+          [{ transform: 'translate3d(-115%,0,0)', opacity: 1 }, { transform: 'translate3d(115%,0,0)', opacity: 1 }],
+          { duration: 820, easing: 'cubic-bezier(.22,1,.36,1)' }
+        );
+      });
+
+      cards.push({ el, i, seed: i * 1.37, vis: false, lastZ: -1 });
+    }
+  }
+
+  /* =========================================================================
+     TABS, RAIL & PRICING UI
+     ========================================================================= */
+  let activeTab = tabsEl.querySelector('button.on');
+  function positionPill(instant) {
+    if (!activeTab) return;
+    if (instant) pillEl.style.transition = 'none';
+    pillEl.style.width = activeTab.offsetWidth + 'px';
+    pillEl.style.transform = `translate3d(${activeTab.offsetLeft}px,0,0)`;
+    if (instant) {
+      pillEl.offsetHeight;
+      pillEl.style.transition = '';
+    }
+  }
+
+  tabsEl.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    if (activeTab) activeTab.classList.remove('on');
+    btn.classList.add('on');
+    activeTab = btn;
+    positionPill(false);
+
+    const n = ITEMS.length;
+    const dest = btn.dataset.target;
+    if (dest === 'all') {
+      target += n;
+    } else {
+      const wantIdx = mod(Number(dest), n);
+      const curIdx = mod(Math.round(target), n);
+      const delta = mod(wantIdx - curIdx, n);
+      target += (delta === 0 ? n : delta);
+    }
+  });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => positionPill(true));
+  }
+
+  function setActiveRail(btn) {
+    railEl.querySelectorAll('button.on').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+  }
+  $('railTry').addEventListener('click', function() {
+    setActiveRail(this);
+    sidePriceEl.classList.add('collapsed');
+    heroEl.scrollIntoView({ behavior: 'smooth' });
+  });
+  function toggleSideDrawer() {
+    const willOpen = sidePriceEl.classList.contains('collapsed');
+    sidePriceEl.classList.toggle('collapsed', !willOpen);
+    setActiveRail(willOpen ? $('railCart') : $('railTry'));
+  }
+  $('railCart').addEventListener('click', toggleSideDrawer);
+  pricePill.addEventListener('click', toggleSideDrawer);
+  $('spClose').addEventListener('click', () => {
+    sidePriceEl.classList.add('collapsed');
+    setActiveRail($('railTry'));
+  });
+  $('railGateway').addEventListener('click', function() {
+    setActiveRail(this);
+    openGateway();
+  });
+  $('railAdmin').addEventListener('click', function() {
+    setActiveRail(this);
+    openAdmin();
+  });
+  $('railProfile').addEventListener('click', function() {
+    setActiveRail(this);
+    $('account-hub').scrollIntoView({ behavior: 'smooth' });
+  });
+  $('hubAdminBtn').addEventListener('click', openAdmin);
+  $('footerAdminBtn').addEventListener('click', openAdmin);
+
+  sizesEl.addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    sizesEl.querySelectorAll('button.on').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    selectedSize = btn.textContent.trim();
+    spSizeChip.textContent = `Size ${selectedSize}`;
+  });
+
+  function rollText(container, text) {
+    const prev = container.querySelector('span[data-cur]');
+    if (prev && prev.textContent === text) return;
+    if (reduced) {
+      container.innerHTML = '';
+      const s = document.createElement('span');
+      s.dataset.cur = '1';
+      s.textContent = text;
+      container.appendChild(s);
+      return;
+    }
+    container.querySelectorAll('span:not([data-cur])').forEach(n => n.remove());
+    if (prev) {
+      delete prev.dataset.cur;
+      const outAnim = prev.animate(
+        [{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(0,-110%,0)' }],
+        { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' }
+      );
+      outAnim.onfinish = () => prev.remove();
+    }
+    const next = document.createElement('span');
+    next.dataset.cur = '1';
+    next.textContent = text;
+    container.appendChild(next);
+    next.animate(
+      [{ transform: 'translate3d(0,110%,0)' }, { transform: 'translate3d(0,0,0)' }],
+      { duration: 520, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'forwards' }
+    );
+  }
+
+  function updateSidePricing(item, idx) {
+    const bdtStr = `৳${Number(item.bdt).toLocaleString('en-US')}`;
+    ppUsd.textContent = `$${item.p}`;
+    ppBdt.textContent = bdtStr;
+    spCount.textContent = `${idx + 1} / ${ITEMS.length}`;
+    spUsd.textContent = `$${item.p}`;
+    spBdt.textContent = bdtStr;
+    spMeta.textContent = `${item.n} · ${item.fit}`;
+    spFitChip.textContent = item.fabric;
+    spSizeChip.textContent = `Size ${selectedSize}`;
+    spColorChip.textContent = selectedColorName;
+  }
+
+  let thumbAnim = null;
+  function updateBuy(item, idx) {
+    selectedColorName = item.c[0][0];
+    rollText(bName, item.n);
+    rollText(bPrice, `$${item.p} · ৳${Number(item.bdt).toLocaleString('en-US')}`);
+    $('buyAddBtn').textContent = `Add · $${item.p}`;
+
+    applyGarmentStyle(thumbG, item);
+    if (!reduced) {
+      if (thumbAnim) thumbAnim.cancel();
+      thumbAnim = thumbG.animate(
+        [{ transform: 'translate3d(0,70%,0) scale(.82)' }, { transform: 'translate3d(0,0,0) scale(1)' }],
+        { duration: 540, easing: 'cubic-bezier(.22,1,.36,1)' }
+      );
+    }
+
+    dotsEl.innerHTML = '';
+    item.c.forEach(([cname, hex], ci) => {
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.style.background = hex;
+      d.setAttribute('aria-label', cname);
+      if (ci === 0) d.classList.add('on');
+      d.addEventListener('click', () => {
+        if (d.classList.contains('on')) return;
+        dotsEl.querySelectorAll('button.on').forEach(b => b.classList.remove('on'));
+        d.classList.add('on');
+        selectedColorName = cname;
+        rollText(bColor, `Color · ${cname}`);
+        spColorChip.textContent = cname;
+      });
+      dotsEl.appendChild(d);
+    });
+    rollText(bColor, `Color · ${item.c[0][0]}`);
+    updateSidePricing(item, idx);
+  }
+
+  /* =========================================================================
+     CART & PAYMENT GATEWAY
+     ========================================================================= */
+  function addCurrentToCart(openDrawer = true) {
+    const idx = shown >= 0 ? shown : 0;
+    const item = ITEMS[idx];
+    const key = `${item.id}|${selectedSize}|${selectedColorName}`;
+    const existing = cart.find(c => c.key === key);
+    if (existing) existing.qty += 1;
+    else {
+      cart.push({
+        key, item, name: item.n, p: Number(item.p), bdt: Number(item.bdt),
+        size: selectedSize, color: selectedColorName, qty: 1
+      });
+    }
+    renderCart();
+    if (openDrawer) {
+      sidePriceEl.classList.remove('collapsed');
+      setActiveRail($('railCart'));
+    }
+    showToast(`Added ${item.n} (${selectedSize}, ${selectedColorName}) to bag`);
+  }
+
+  function renderCart() {
+    const count = cart.reduce((s, c) => s + c.qty, 0);
+    cartBadge.textContent = count;
+    cartBadge.classList.toggle('show', count > 0);
+    ppBag.textContent = `Bag · ${count}`;
+    spCart.classList.toggle('has-items', count > 0);
+
+    spCartList.innerHTML = '';
+    let sumUsd = 0, sumBdt = 0;
+    cart.forEach(entry => {
+      sumUsd += entry.p * entry.qty;
+      sumBdt += entry.bdt * entry.qty;
+      const row = document.createElement('div');
+      row.className = 'sp-item';
+      row.innerHTML = `
+        <div class="sp-item-info">
+          <div class="sp-item-title">${entry.name}</div>
+          <div class="sp-item-sub">${entry.size} · ${entry.color} · $${entry.p * entry.qty}</div>
+        </div>
+        <div class="sp-qty">
+          <button type="button" data-act="dec" aria-label="Decrease">&minus;</button>
+          <span>${entry.qty}</span>
+          <button type="button" data-act="inc" aria-label="Increase">+</button>
+        </div>
+      `;
+      row.querySelector('[data-act="dec"]').addEventListener('click', () => {
+        entry.qty -= 1;
+        if (entry.qty <= 0) cart = cart.filter(x => x.key !== entry.key);
+        renderCart();
+        if (gwModal.classList.contains('open')) renderGatewayItems();
+      });
+      row.querySelector('[data-act="inc"]').addEventListener('click', () => {
+        entry.qty += 1;
+        renderCart();
+        if (gwModal.classList.contains('open')) renderGatewayItems();
+      });
+      spCartList.appendChild(row);
+    });
+    spCartTotal.textContent = `$${sumUsd} · ৳${sumBdt.toLocaleString('en-US')}`;
+  }
+
+  $('spAddBtn').addEventListener('click', () => addCurrentToCart(true));
+  $('buyAddBtn').addEventListener('click', () => addCurrentToCart(true));
+  $('spBuyBtn').addEventListener('click', () => {
+    if (cart.length === 0) addCurrentToCart(false);
+    openGateway();
+  });
+  $('spCheckoutBtn').addEventListener('click', () => openGateway());
+
+  const gwModal = $('gwModal');
+  const gwItems = $('gwItems');
+  const gwBody = $('gwBody');
+  const gwReceipt = $('gwReceipt');
+
+  function syncModalCursorState() {
+    const anyModal = gwModal.classList.contains('open') || adminModal.classList.contains('open');
+    document.documentElement.classList.toggle('modal-open', anyModal);
+    document.body.classList.toggle('modal-open', anyModal);
+    document.body.classList.toggle('spatial-cur', !anyModal);
+    if (anyModal) curEl.classList.remove('vis');
+  }
+
+  function renderGatewayItems() {
+    if (cart.length === 0) addCurrentToCart(false);
+    gwItems.innerHTML = '';
+    let subUsd = 0, subBdt = 0;
+    cart.forEach(entry => {
+      subUsd += entry.p * entry.qty;
+      subBdt += entry.bdt * entry.qty;
+      const el = document.createElement('div');
+      el.className = 'gw-item';
+      const thumb = document.createElement('div');
+      thumb.className = 'gw-thumb';
+      const g = document.createElement('div');
+      g.className = 'g';
+      applyGarmentStyle(g, entry.item);
+      thumb.appendChild(g);
+
+      const meta = document.createElement('div');
+      meta.className = 'gw-item-meta';
+      meta.innerHTML = `<strong>${entry.name} &times; ${entry.qty}</strong><span>Size ${entry.size} &middot; ${entry.color}</span>`;
+
+      const priceCol = document.createElement('div');
+      priceCol.style.cssText = 'text-align:right;font-weight:700;font-size:13px';
+      priceCol.innerHTML = `<div>$${entry.p * entry.qty}</div><div style="font-size:11px;opacity:.75">৳${(entry.bdt * entry.qty).toLocaleString('en-US')}</div>`;
+
+      el.append(thumb, meta, priceCol);
+      gwItems.appendChild(el);
+    });
+
+    const discUsd = promoApplied ? Math.round(subUsd * 0.1) : 0;
+    const discBdt = promoApplied ? Math.round(subBdt * 0.1) : 0;
+    const freeShip = subUsd >= 100;
+    const shipBdt = freeShip ? 0 : 120;
+    const totalUsd = subUsd - discUsd;
+    const totalBdt = subBdt - discBdt + shipBdt;
+
+    $('gwSub').textContent = `$${subUsd} · ৳${subBdt.toLocaleString('en-US')}`;
+    $('gwDiscRow').style.display = promoApplied ? 'flex' : 'none';
+    $('gwDisc').textContent = `-$${discUsd} · -৳${discBdt.toLocaleString('en-US')}`;
+    $('gwShip').textContent = freeShip ? 'FREE' : '৳120';
+    $('gwTotal').textContent = `$${totalUsd} · ৳${totalBdt.toLocaleString('en-US')}`;
+    $('gwPayBtn').textContent = `Pay ৳${totalBdt.toLocaleString('en-US')} ($${totalUsd}) via ${payMethod}`;
+  }
+
+  function openGateway() {
+    gwBody.style.display = 'grid';
+    gwReceipt.classList.remove('show');
+    renderGatewayItems();
+    const user = loadUser();
+    if (user) {
+      if (!$('gwName').value && user.name) $('gwName').value = user.name;
+      if (!$('gwPhone').value && user.phone) $('gwPhone').value = user.phone;
+    }
+    gwModal.classList.add('open');
+    syncModalCursorState();
+  }
+  function closeGateway() {
+    gwModal.classList.remove('open');
+    setActiveRail($('railTry'));
+    syncModalCursorState();
+  }
+  $('gwClose').addEventListener('click', closeGateway);
+  $('rcptDoneBtn').addEventListener('click', closeGateway);
+  gwModal.addEventListener('click', e => { if (e.target === gwModal) closeGateway(); });
+
+  $('promoApply').addEventListener('click', () => {
+    const code = $('promoInput').value.trim().toUpperCase();
+    if (code === 'JAYED10') {
+      promoApplied = true;
+      renderGatewayItems();
+      showToast('Promo code JAYED10 applied (10% OFF)!');
+    } else {
+      showToast('Try code JAYED10 for 10% off');
+    }
+  });
+
+  $('payMethods').addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    $('payMethods').querySelectorAll('button.on').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    payMethod = btn.dataset.pay;
+    $('gwCardFields').style.display = payMethod === 'Card' ? 'block' : 'none';
+    const hints = {
+      bKash: 'Merchant bKash: <strong>+880 1307-758119</strong> &middot; Instant SSL-verified confirmation.',
+      Nagad: 'Merchant Nagad: <strong>+880 1307-758119</strong> &middot; Zero extra gateway fee.',
+      Rocket: 'Merchant Rocket (DBBL): <strong>+880 1307-758119</strong> &middot; Instant verification.',
+      Card: '256-bit SSLCommerz encrypted Visa / Mastercard checkout.',
+      COD: 'Pay in cash upon doorstep delivery anywhere in Bangladesh.'
+    };
+    $('gwWalletHint').innerHTML = hints[payMethod] || '';
+    renderGatewayItems();
+  });
+
+  $('gwForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const orderId = 'SEEN-' + Math.floor(100000 + Math.random() * 900000);
+    const name = $('gwName').value.trim();
+    const phone = $('gwPhone').value.trim();
+    const city = $('gwCity').value;
+    const addr = $('gwAddr').value.trim();
+    const summary = cart.map(c => `${c.name} (${c.size}/${c.color}) x${c.qty}`).join(', ');
+    const totalTxt = $('gwTotal').textContent;
+
+    gwBody.style.display = 'none';
+    gwReceipt.classList.add('show');
+    $('rcptText').innerHTML = `Order <strong>#${orderId}</strong> confirmed via <strong>${payMethod}</strong> (${totalTxt}) for ${name}, ${city}.`;
+    const waMsg = encodeURIComponent(
+      `Hi Jayed! New SEEN Store Order #${orderId}\nItems: ${summary}\nTotal: ${totalTxt}\nPayment: ${payMethod}\nName: ${name}\nPhone: ${phone}\nAddress: ${addr}, ${city}`
+    );
+    $('rcptWaLink').href = `https://wa.me/8801307758119?text=${waMsg}`;
+
+    cart = [];
+    promoApplied = false;
+    renderCart();
+    showToast(`Order #${orderId} placed successfully!`);
+  });
+
+  /* =========================================================================
+     ADMIN PANEL + AUTOMATIC HD WAIST-UP T-SHIRT MOCKUP ENGINE
+     ========================================================================= */
+  const adminModal = $('adminModal');
+  const adminPinGate = $('adminPinGate');
+  const adminBody = $('adminBody');
+  let adminUnlocked = false;
+
+  let baseModelImg = null, torsoMaskImg = null;
+  function loadImage(src) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = src;
+    });
+  }
+  async function ensureMockupAssets() {
+    if (!baseModelImg) baseModelImg = await loadImage('assets/waist-base.png?v=6');
+    if (!torsoMaskImg) torsoMaskImg = await loadImage('assets/waist-torso-mask.png?v=6');
+  }
+
+  function stripUploadedBackground(img) {
+    const maxDim = 540;
+    const sc = Math.min(1, maxDim / Math.max(img.width, img.height));
+    const w = Math.max(1, Math.round(img.width * sc));
+    const h = Math.max(1, Math.round(img.height * sc));
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h);
+    const id = ctx.getImageData(0, 0, w, h);
+    const d = id.data;
+
+    let transparentCorners = 0;
+    [[2,2],[w-3,2],[2,h-3],[w-3,h-3]].forEach(([x,y]) => {
+      if (d[(y * w + x) * 4 + 3] < 40) transparentCorners++;
+    });
+
+    if (transparentCorners < 2) {
+      const cIdx = (2 * w + 2) * 4;
+      const kr = d[cIdx], kg = d[cIdx+1], kb = d[cIdx+2];
+      const visited = new Uint8Array(w * h);
+      const q = new Int32Array(w * h);
+      let head = 0, tail = 0;
+      const tol = 58;
+      const tryPush = (x, y) => {
+        const p = y * w + x;
+        if (visited[p]) return;
+        const i = p * 4;
+        if (Math.hypot(d[i] - kr, d[i+1] - kg, d[i+2] - kb) < tol) {
+          visited[p] = 1;
+          q[tail++] = p;
+        }
+      };
+      for (let x = 0; x < w; x++) { tryPush(x, 0); tryPush(x, h - 1); }
+      for (let y = 0; y < h; y++) { tryPush(0, y); tryPush(w - 1, y); }
+      while (head < tail) {
+        const p = q[head++];
+        const x = p % w, y = (p / w) | 0;
+        d[p * 4 + 3] = 0;
+        if (x > 0) tryPush(x - 1, y);
+        if (x < w - 1) tryPush(x + 1, y);
+        if (y > 0) tryPush(x, y - 1);
+        if (y < h - 1) tryPush(x, y + 1);
+      }
+      ctx.putImageData(id, 0, 0);
+    }
+
+    const out = ctx.getImageData(0, 0, w, h).data;
+    let x0 = w, x1 = 0, y0 = h, y1 = 0;
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        if (out[(y * w + x) * 4 + 3] > 30) {
+          if (x < x0) x0 = x;
+          if (x > x1) x1 = x;
+          if (y < y0) y0 = y;
+          if (y > y1) y1 = y;
+        }
+      }
+    }
+    if (x1 <= x0 || y1 <= y0) { x0 = 0; y0 = 0; x1 = w - 1; y1 = h - 1; }
+    const bw = x1 - x0 + 1, bh = y1 - y0 + 1;
+
+    const sq = document.createElement('canvas');
+    sq.width = 440; sq.height = 440;
+    const sctx = sq.getContext('2d');
+    const pad = 26;
+    const fitSc = Math.min((440 - pad * 2) / bw, (440 - pad * 2) / bh);
+    const dw = bw * fitSc, dh = bh * fitSc;
+    sctx.drawImage(c, x0, y0, bw, bh, (440 - dw) / 2, (440 - dh) / 2, dw, dh);
+
+    const cx0 = Math.floor((x0 + x1) / 2), cy0 = Math.floor((y0 + y1) / 2);
+    const ci = (cy0 * w + cx0) * 4;
+    const hex = '#' + [out[ci], out[ci+1], out[ci+2]].map(v => v.toString(16).padStart(2, '0')).join('');
+
+    return { cleanCanvas: c, bbox: { x: x0, y: y0, w: bw, h: bh }, cardDataUrl: sq.toDataURL('image/png'), dominantHex: hex };
+  }
+
+  async function generateAutoMockup(rawImg, mode = 'full', baseHex = '#7f1d1d', stripBg = true) {
+    await ensureMockupAssets();
+    const cleaned = stripBg ? stripUploadedBackground(rawImg) : {
+      cleanCanvas: rawImg,
+      bbox: { x: 0, y: 0, w: rawImg.width, h: rawImg.height },
+      cardDataUrl: (() => {
+        const sq = document.createElement('canvas');
+        sq.width = 440; sq.height = 440;
+        const sctx = sq.getContext('2d');
+        const sc = Math.min(390 / rawImg.width, 390 / rawImg.height);
+        sctx.drawImage(rawImg, (440 - rawImg.width * sc) / 2, (440 - rawImg.height * sc) / 2, rawImg.width * sc, rawImg.height * sc);
+        return sq.toDataURL('image/png');
+      })(),
+      dominantHex: baseHex
+    };
+
+    const shirtLayer = document.createElement('canvas');
+    shirtLayer.width = MODEL_W;
+    shirtLayer.height = MODEL_H;
+    const sctx = shirtLayer.getContext('2d');
+
+    if (mode === 'graphic') {
+      sctx.fillStyle = baseHex;
+      sctx.fillRect(TORSO.x - 14, TORSO.y - 14, TORSO.w + 28, TORSO.h + 28);
+      const artW = TORSO.w * 0.44;
+      const artH = artW * (cleaned.bbox.h / cleaned.bbox.w);
+      const ax = TORSO.x + (TORSO.w - artW) / 2;
+      const ay = TORSO.y + TORSO.h * 0.20;
+      sctx.drawImage(cleaned.cleanCanvas, cleaned.bbox.x, cleaned.bbox.y, cleaned.bbox.w, cleaned.bbox.h, ax, ay, artW, Math.min(artH, TORSO.h * 0.5));
+    } else {
+      sctx.fillStyle = cleaned.dominantHex;
+      sctx.fillRect(TORSO.x - 12, TORSO.y - 12, TORSO.w + 24, TORSO.h + 24);
+      sctx.drawImage(
+        cleaned.cleanCanvas,
+        cleaned.bbox.x, cleaned.bbox.y, cleaned.bbox.w, cleaned.bbox.h,
+        TORSO.x - 14, TORSO.y - 8, TORSO.w + 28, TORSO.h + 18
+      );
+    }
+
+    // Photo-real fabric fold & chest contour multiply shading map
+    const shadeCanvas = document.createElement('canvas');
+    shadeCanvas.width = MODEL_W;
+    shadeCanvas.height = MODEL_H;
+    const shCtx = shadeCanvas.getContext('2d');
+    shCtx.drawImage(baseModelImg, 0, 0, MODEL_W, MODEL_H);
+    const shData = shCtx.getImageData(0, 0, MODEL_W, MODEL_H);
+    const sd = shData.data;
+    for (let i = 0; i < sd.length; i += 4) {
+      const lum = (0.299 * sd[i] + 0.587 * sd[i+1] + 0.114 * sd[i+2]) / 255;
+      const curved = Math.pow(Math.max(0.05, (lum - 0.08) / 0.86), 1.38);
+      const v = Math.max(85, Math.min(255, Math.round(curved * 255)));
+      sd[i] = sd[i+1] = sd[i+2] = v;
+    }
+    shCtx.putImageData(shData, 0, 0);
+
+    sctx.globalCompositeOperation = 'multiply';
+    sctx.drawImage(shadeCanvas, 0, 0);
+    sctx.globalCompositeOperation = 'destination-in';
+    sctx.drawImage(torsoMaskImg, 0, 0, MODEL_W, MODEL_H);
+
+    const finalC = document.createElement('canvas');
+    finalC.width = MODEL_W;
+    finalC.height = MODEL_H;
+    const fctx = finalC.getContext('2d');
+    fctx.drawImage(baseModelImg, 0, 0, MODEL_W, MODEL_H);
+    fctx.drawImage(shirtLayer, 0, 0);
+
+    let cardUrl = cleaned.cardDataUrl;
+    if (mode === 'graphic') {
+      const cardC = document.createElement('canvas');
+      cardC.width = 440; cardC.height = 440;
+      const cctx = cardC.getContext('2d');
+      cctx.drawImage(shirtLayer, TORSO.x - 10, TORSO.y - 10, TORSO.w + 20, TORSO.h + 20, 34, 24, 372, 392);
+      cardUrl = cardC.toDataURL('image/png');
+    }
+
+    return {
+      modelDataUrl: finalC.toDataURL('image/png'),
+      cardDataUrl: cardUrl,
+      dominantHex: mode === 'graphic' ? baseHex : cleaned.dominantHex
+    };
+  }
+
+  let pendingBatch = [];
+  let activePendingIdx = -1;
+
+  async function processUploadedFiles(fileList) {
+    const files = [...fileList].filter(f => f.type.startsWith('image/'));
+    if (!files.length) return;
+    $('admStatus').textContent = `Generating auto-mockup for ${files.length} T-shirt(s)...`;
+
+    const mode = $('admMode').value;
+    const baseHex = $('admBaseHex').value;
+    const stripBg = $('admBgStrip').value === '1';
+
+    for (const file of files) {
+      const url = URL.createObjectURL(file);
+      try {
+        const img = await loadImage(url);
+        const res = await generateAutoMockup(img, mode, baseHex, stripBg);
+        const cleanName = file.name.replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').replace(/\b\w/g, m => m.toUpperCase()) || 'Custom Tee';
+        pendingBatch.push({
+          rawImg: img,
+          name: cleanName,
+          p: Number($('admUsd').value) || 54,
+          bdt: Number($('admBdt').value) || 1750,
+          fit: $('admFit').value,
+          fabric: $('admFabric').value,
+          colorName: $('admColorName').value || 'Custom',
+          swatch: res.dominantHex,
+          cardDataUrl: res.cardDataUrl,
+          modelDataUrl: res.modelDataUrl
+        });
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    selectPending(pendingBatch.length - 1);
+    renderBatchQueue();
+    $('admStatus').textContent = `${pendingBatch.length} auto-mockup(s) ready! Review pricing and click Publish.`;
+  }
+
+  function selectPending(idx) {
+    if (idx < 0 || idx >= pendingBatch.length) return;
+    activePendingIdx = idx;
+    const entry = pendingBatch[idx];
+    $('previewStage').style.display = 'grid';
+    $('prevModelImg').src = entry.modelDataUrl;
+    $('prevCardImg').src = entry.cardDataUrl;
+    $('admName').value = entry.name;
+    $('admUsd').value = entry.p;
+    $('admBdt').value = entry.bdt;
+    $('admSwatchHex').value = /^#[0-9a-f]{6}$/i.test(entry.swatch) ? entry.swatch : '#b91c1c';
+    renderBatchQueue();
+  }
+
+  function renderBatchQueue() {
+    const q = $('batchQueue');
+    q.innerHTML = '';
+    pendingBatch.forEach((item, idx) => {
+      const pill = document.createElement('button');
+      pill.type = 'button';
+      pill.className = 'batch-pill' + (idx === activePendingIdx ? ' on' : '');
+      pill.textContent = `${idx + 1}. ${item.name}`;
+      pill.addEventListener('click', () => selectPending(idx));
+      q.appendChild(pill);
+    });
+    const pubAll = $('publishAllBtn');
+    pubAll.textContent = `Publish All Batch (${pendingBatch.length})`;
+    pubAll.disabled = pendingBatch.length === 0;
+  }
+
+  async function recompositeActive() {
+    if (activePendingIdx < 0 || !pendingBatch[activePendingIdx]) return;
+    const entry = pendingBatch[activePendingIdx];
+    const mode = $('admMode').value;
+    const baseHex = $('admBaseHex').value;
+    const stripBg = $('admBgStrip').value === '1';
+    const res = await generateAutoMockup(entry.rawImg, mode, baseHex, stripBg);
+    entry.cardDataUrl = res.cardDataUrl;
+    entry.modelDataUrl = res.modelDataUrl;
+    entry.swatch = res.dominantHex;
+    $('prevModelImg').src = res.modelDataUrl;
+    $('prevCardImg').src = res.cardDataUrl;
+  }
+
+  $('admMode').addEventListener('change', () => {
+    $('admColorTintRow').style.display = $('admMode').value === 'graphic' ? 'grid' : 'none';
+    recompositeActive();
+  });
+  $('admBaseHex').addEventListener('input', recompositeActive);
+  $('admBgStrip').addEventListener('change', recompositeActive);
+  $('admUsd').addEventListener('input', () => {
+    const u = Number($('admUsd').value);
+    if (u > 0) $('admBdt').value = Math.round(u * 32 / 10) * 10;
+  });
+
+  const dropzone = $('dropzone');
+  $('pickFilesBtn').addEventListener('click', () => $('teeFileInput').click());
+  $('teeFileInput').addEventListener('change', e => { processUploadedFiles(e.target.files); e.target.value = ''; });
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('over'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('over'));
+  dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('over'); processUploadedFiles(e.dataTransfer.files); });
+
+  $('demoAutoBtn').addEventListener('click', async () => {
+    const demoC = document.createElement('canvas');
+    demoC.width = 400; demoC.height = 400;
+    const dctx = demoC.getContext('2d');
+    dctx.fillStyle = '#ffffff';
+    dctx.font = '900 138px Cairo, Inter, sans-serif';
+    dctx.textAlign = 'center';
+    dctx.textBaseline = 'middle';
+    dctx.fillText('\u0633', 200, 165);
+    dctx.font = '700 26px Inter, sans-serif';
+    dctx.fillStyle = 'rgba(255,255,255,0.88)';
+    dctx.fillText('SEEN · LIMITED 26', 200, 275);
+
+    const img = await loadImage(demoC.toDataURL('image/png'));
+    $('admMode').value = 'graphic';
+    $('admColorTintRow').style.display = 'grid';
+    $('admBaseHex').value = '#7f1d1d';
+    const res = await generateAutoMockup(img, 'graphic', '#7f1d1d', false);
+    pendingBatch.push({
+      rawImg: img,
+      name: 'SEEN Crimson Drop Tee',
+      p: 62,
+      bdt: 1990,
+      fit: 'Limited Drop',
+      fabric: '270 GSM Luxury Cotton',
+      colorName: 'Crimson Wine',
+      swatch: '#7f1d1d',
+      cardDataUrl: res.cardDataUrl,
+      modelDataUrl: res.modelDataUrl
+    });
+    selectPending(pendingBatch.length - 1);
+    $('admColorName').value = 'Crimson Wine';
+    $('admStatus').textContent = 'Demo auto-mockup generated! Click "Publish to Live Store" to see it live.';
+  });
+
+  function pushItemToStore(entry) {
+    ITEMS.push({
+      id: 'custom-' + Date.now() + '-' + Math.floor(Math.random() * 999),
+      n: entry.name,
+      p: Number(entry.p) || 54,
+      bdt: Number(entry.bdt) || 1750,
+      fit: entry.fit || 'Limited Drop',
+      fabric: entry.fabric || '250 GSM Heavy Cotton',
+      customCard: entry.cardDataUrl,
+      customModel: entry.modelDataUrl,
+      c: [
+        [entry.colorName || 'Signature', entry.swatch || '#b91c1c'],
+        ['Obsidian', '#18181a'],
+        ['Bone', '#e5dfd3'],
+        ['Charcoal', '#3b3c3f']
+      ]
+    });
+    return ITEMS.length - 1;
+  }
+
+  async function finalizeCatalogUpdate(focusIdx) {
+    await saveCatalogToDB();
+    rebuildArc();
+    renderAdminCatalog();
+    const n = ITEMS.length;
+    const cur = mod(Math.round(target), n);
+    const delta = mod(focusIdx - cur, n);
+    shown = -1;
+    target += (delta === 0 ? 0 : delta);
+  }
+
+  $('publishTeeForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    if (activePendingIdx < 0 || !pendingBatch[activePendingIdx]) {
+      $('admStatus').textContent = 'Upload a T-shirt photo (or click "+ Try Demo Tee") first!';
+      return;
+    }
+    const entry = pendingBatch[activePendingIdx];
+    entry.name = $('admName').value.trim() || entry.name;
+    entry.p = Number($('admUsd').value) || 54;
+    entry.bdt = Number($('admBdt').value) || 1750;
+    entry.fit = $('admFit').value;
+    entry.fabric = $('admFabric').value.trim() || '250 GSM Cotton';
+    entry.colorName = $('admColorName').value.trim() || 'Custom';
+    entry.swatch = $('admSwatchHex').value;
+
+    const newIdx = pushItemToStore(entry);
+    pendingBatch.splice(activePendingIdx, 1);
+    activePendingIdx = pendingBatch.length > 0 ? 0 : -1;
+    if (activePendingIdx >= 0) selectPending(0);
+    else $('previewStage').style.display = 'none';
+    renderBatchQueue();
+
+    await finalizeCatalogUpdate(newIdx);
+    $('admStatus').textContent = `Published "${entry.name}" live on your 3D Try-On Arc!`;
+    showToast(`Published "${entry.name}" with Auto-Mockup!`);
+  });
+
+  $('publishAllBtn').addEventListener('click', async () => {
+    if (!pendingBatch.length) return;
+    let lastIdx = ITEMS.length - 1;
+    const count = pendingBatch.length;
+    for (const entry of pendingBatch) lastIdx = pushItemToStore(entry);
+    pendingBatch = [];
+    activePendingIdx = -1;
+    $('previewStage').style.display = 'none';
+    renderBatchQueue();
+    await finalizeCatalogUpdate(lastIdx);
+    $('admStatus').textContent = `Published all ${count} T-shirt auto-mockups to your live store!`;
+    showToast(`Published ${count} T-shirts live!`);
+  });
+
+  function renderAdminCatalog() {
+    $('catTotalCount').textContent = ITEMS.length;
+    const list = $('catalogList');
+    list.innerHTML = '';
+    ITEMS.forEach((item, idx) => {
+      const row = document.createElement('div');
+      row.className = 'cat-row';
+
+      const thumb = document.createElement('div');
+      thumb.className = 'cat-row-thumb';
+      const g = document.createElement('div');
+      g.className = 'g';
+      applyGarmentStyle(g, item);
+      thumb.appendChild(g);
+
+      const info = document.createElement('div');
+      info.className = 'cat-row-info';
+      info.innerHTML = `<strong>${item.n}</strong><span>${item.fit} &middot; ${item.customModel ? 'Auto-Mockup' : 'Studio Base'}</span>`;
+
+      const priceWrap = document.createElement('div');
+      priceWrap.className = 'cat-row-price';
+      priceWrap.innerHTML = `<span style="font-size:11px;opacity:.7">$</span><input type="number" value="${item.p}" aria-label="USD Price"><span style="font-size:11px;opacity:.7">৳</span><input type="number" value="${item.bdt}" style="width:66px" aria-label="BDT Price">`;
+      const [usdInp, bdtInp] = priceWrap.querySelectorAll('input');
+      usdInp.addEventListener('change', async () => {
+        item.p = Math.max(1, Number(usdInp.value) || item.p);
+        await saveCatalogToDB();
+        rebuildArc();
+        if (shown === idx) updateBuy(item, idx);
+        showToast(`Updated ${item.n} price to $${item.p}`);
+      });
+      bdtInp.addEventListener('change', async () => {
+        item.bdt = Math.max(50, Number(bdtInp.value) || item.bdt);
+        await saveCatalogToDB();
+        if (shown === idx) updateBuy(item, idx);
+        showToast(`Updated ${item.n} price to ৳${item.bdt}`);
+      });
+
+      const viewBtn = document.createElement('button');
+      viewBtn.type = 'button';
+      viewBtn.className = 'btn-soft';
+      viewBtn.style.cssText = 'height:28px;padding:0 9px;font-size:11px';
+      viewBtn.textContent = 'Try On';
+      viewBtn.addEventListener('click', () => {
+        closeAdmin();
+        const n = ITEMS.length;
+        const cur = mod(Math.round(target), n);
+        target += mod(idx - cur, n);
+        heroEl.scrollIntoView({ behavior: 'smooth' });
+      });
+
+      row.append(thumb, info, priceWrap, viewBtn);
+
+      if (ITEMS.length > 1) {
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'btn-danger';
+        delBtn.innerHTML = '&times;';
+        delBtn.title = 'Remove T-shirt';
+        delBtn.addEventListener('click', async () => {
+          ITEMS.splice(idx, 1);
+          shown = -1;
+          await saveCatalogToDB();
+          rebuildArc();
+          renderAdminCatalog();
+          showToast(`Removed ${item.n}`);
+        });
+        row.appendChild(delBtn);
+      }
+
+      list.appendChild(row);
+    });
+  }
+
+  $('resetCatBtn').addEventListener('click', async () => {
+    ITEMS = DEFAULT_ITEMS.map(x => ({ ...x, c: x.c.map(col => [...col]) }));
+    shown = -1;
+    target = 0;
+    await saveCatalogToDB();
+    rebuildArc();
+    renderAdminCatalog();
+    showToast('Catalog reset to 5 default studio T-shirts');
+  });
+
+  function openAdmin() {
+    adminModal.classList.add('open');
+    syncModalCursorState();
+    if (adminUnlocked) {
+      adminPinGate.style.display = 'none';
+      adminBody.style.display = 'block';
+      renderAdminCatalog();
+    } else {
+      adminPinGate.style.display = 'block';
+      adminBody.style.display = 'none';
+      $('pinErr').textContent = '';
+      setTimeout(() => $('pinInput').focus(), 80);
+    }
+  }
+  function closeAdmin() {
+    adminModal.classList.remove('open');
+    setActiveRail($('railTry'));
+    syncModalCursorState();
+  }
+  $('adminClose').addEventListener('click', closeAdmin);
+  adminModal.addEventListener('click', e => { if (e.target === adminModal) closeAdmin(); });
+
+  $('pinForm').addEventListener('submit', e => {
+    e.preventDefault();
+    if ($('pinInput').value.trim() === 'sabasagol') {
+      adminUnlocked = true;
+      $('pinInput').value = '';
+      $('pinErr').textContent = '';
+      adminPinGate.style.display = 'none';
+      adminBody.style.display = 'block';
+      renderAdminCatalog();
+      ensureMockupAssets().catch(() => {});
+      showToast('Admin Auto-Mockup Studio unlocked');
+    } else {
+      $('pinErr').textContent = 'Incorrect admin password. Please try again.';
+    }
+  });
+
+  /* =========================================================================
+     CUSTOMER LOGIN GATEWAY & DIRECT GOOGLE CALL-OUT
+     ========================================================================= */
+  let authMode = 'login';
+  function loadUser() { try { return JSON.parse(localStorage.getItem('vf_user') || 'null'); } catch { return null; } }
+  function saveUser(u) { try { localStorage.setItem('vf_user', JSON.stringify(u)); } catch {} renderUserSession(); }
+  function renderUserSession() {
+    const u = loadUser();
+    const card = $('signedCard');
+    if (u) {
+      card.classList.add('show');
+      $('signedName').textContent = `Welcome, ${u.name || u.email}`;
+      $('signedSub').textContent = `${u.email}${u.phone ? ' · ' + u.phone : ''} (${u.provider})`;
+      if (!$('cGoogle').value) $('cGoogle').value = u.email || '';
+      if (!$('cPhone').value && u.phone) $('cPhone').value = u.phone;
+    } else {
+      card.classList.remove('show');
+    }
+  }
+  renderUserSession();
+
+  $('authSeg').addEventListener('click', e => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    $('authSeg').querySelectorAll('button.on').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    authMode = btn.dataset.mode;
+    $('signupNameRow').style.display = authMode === 'signup' ? 'grid' : 'none';
+    $('authSubmitBtn').textContent = authMode === 'signup' ? 'Create SEEN Account' : 'Sign In to SEEN Store';
+    $('authStatus').textContent = '';
+  });
+
+  $('googleLoginBtn').addEventListener('click', () => {
+    const emailInput = $('authEmail').value.trim();
+    const phoneInput = $('authPhone').value.trim();
+    const email = (emailInput && emailInput.includes('@'))
+      ? emailInput
+      : (prompt('Enter your Google Account email (e.g. yourname@gmail.com):', 'customer@gmail.com') || '').trim();
+    if (!email || !email.includes('@')) return;
+    const phone = phoneInput || (prompt('Optional: Enter your phone number for quick order updates & call-out:', '+880 ') || '').trim();
+    const name = email.split('@')[0].replace(/[._-]+/g, ' ');
+    saveUser({ name, email, phone, provider: 'Google Account' });
+    $('authStatus').textContent = `Signed in with Google (${email}). Auto-filled for checkout & direct contact!`;
+    showToast(`Signed in via Google: ${email}`);
+  });
+
+  $('authForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = $('authEmail').value.trim();
+    const name = $('authName').value.trim() || email.split('@')[0];
+    const phone = $('authPhone').value.trim();
+    saveUser({ name, email, phone, provider: authMode === 'signup' ? 'New Account' : 'Email Login' });
+    $('authStatus').textContent = authMode === 'signup'
+      ? `Account created for ${email}! You're now logged in.`
+      : `Welcome back, ${name}! Logged in successfully.`;
+    showToast(`Logged in as ${email}`);
+  });
+
+  $('signOutBtn').addEventListener('click', () => {
+    try { localStorage.removeItem('vf_user'); } catch {}
+    renderUserSession();
+    $('authStatus').textContent = 'Signed out.';
+    showToast('Signed out');
+  });
+
+  $('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const gEmail = $('cGoogle').value.trim();
+    const phone = $('cPhone').value.trim();
+    const msg = $('cMsg').value.trim() || 'Hi Jayed, I want to connect regarding SEEN VirtualFit T-shirts.';
+    const text = encodeURIComponent(`Hi Jayed! SEEN Store Call-Out\nGoogle Account: ${gEmail}\nPhone: ${phone}\nMessage: ${msg}`);
+    $('contactStatus').textContent = `Opening WhatsApp to connect with Jayed (+880 1307-758119)...`;
+    window.open(`https://wa.me/8801307758119?text=${text}`, '_blank', 'noopener');
+  });
+
+  $('directCallBtn').addEventListener('click', () => {
+    const gEmail = $('cGoogle').value.trim() || 'visitor@gmail.com';
+    const phone = $('cPhone').value.trim() || 'Not provided';
+    const msg = $('cMsg').value.trim() || 'Hello Jayed, reaching out from SEEN VirtualFit.';
+    const subject = encodeURIComponent(`SEEN VirtualFit Direct Contact from ${gEmail}`);
+    const body = encodeURIComponent(`Google Account: ${gEmail}\nPhone Number: ${phone}\n\nMessage:\n${msg}`);
+    $('contactStatus').textContent = `Opening email to thunderseen@gmail.com (Phone: +880 1307-758119)`;
+    window.location.href = `mailto:thunderseen@gmail.com?subject=${subject}&body=${body}`;
+  });
+
+  /* =========================================================================
+     TRY-ON SCAN ANIMATION (950ms SILKY CLIP-PATH REVEAL)
+     ========================================================================= */
+  let shown = -1;
+  let scanAnims = [];
+  let scanToken = 0;
+
+  function cancelScan() {
+    scanToken++;
+    scanAnims.forEach(a => a.cancel());
+    scanAnims = [];
+  }
+
+  function tryOn(idx) {
+    shown = idx;
+    const item = ITEMS[idx];
+    if (!item) return;
+    updateBuy(item, idx);
+    cancelScan();
+
+    if (reduced) {
+      applyModelStyle(mCur, item);
+      mCur.style.opacity = '1';
+      return;
+    }
+
+    const token = scanToken;
+    applyModelStyle(mNext, item);
+    const easeScan = 'cubic-bezier(.65,0,.35,1)';
+
+    const aClip = mNext.animate(
+      [{ clipPath: 'inset(0 0 100% 0)' }, { clipPath: 'inset(0 0 0% 0)' }],
+      { duration: 950, easing: easeScan, fill: 'forwards' }
+    );
+    const aGrid = gridEl.animate(
+      [
+        { clipPath: 'inset(0 0 100% 0)', offset: 0 },
+        { clipPath: 'inset(0 0 0 0)', offset: 0.5 },
+        { clipPath: 'inset(100% 0 0 0)', offset: 1 }
+      ],
+      { duration: 1092, easing: easeScan }
+    );
+    const aScan = scanEl.animate(
+      [
+        { top: '0%', transform: 'scaleX(.2)', opacity: 0, offset: 0 },
+        { top: '6%', transform: 'scaleX(1)', opacity: 1, offset: 0.08 },
+        { top: '94%', transform: 'scaleX(1)', opacity: 1, offset: 0.92 },
+        { top: '100%', transform: 'scaleX(.2)', opacity: 0, offset: 1 }
+      ],
+      { duration: 950, easing: easeScan }
+    );
+    const aSettle = mNext.animate(
+      [{ transform: 'scale(1.012)' }, { transform: 'scale(1)' }],
+      { duration: 1150, easing: 'ease-out' }
+    );
+
+    scanAnims = [aClip, aGrid, aScan, aSettle];
+    aClip.onfinish = () => {
+      if (token !== scanToken) return;
+      applyModelStyle(mCur, item);
+      mCur.style.opacity = '1';
+      cancelScan();
+    };
+  }
+
+  /* =========================================================================
+     SNAPPY SILKY INPUT HANDLING (DRAG, FLICK, CLICK, WHEEL, KEYS)
+     ========================================================================= */
+  let pos = 0, target = 0;
+  let intro = reduced ? 1 : 0;
+  let dragging = false, dragLocked = false, isTouchDrag = false;
+  let downX = 0, downY = 0, p0 = 0, lastX = 0, lastT = 0, vel = 0, moved = 0;
+  let downCard = null, activePointerId = null;
+
+  stageEl.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    dragging = true;
+    isTouchDrag = (e.pointerType === 'touch');
+    dragLocked = !isTouchDrag;
+    activePointerId = e.pointerId;
+    downCard = e.target.closest('.card');
+    downX = lastX = e.clientX;
+    downY = e.clientY;
+    p0 = pos;
+    lastT = performance.now();
+    vel = 0;
+    moved = 0;
+    if (!isTouchDrag) {
+      try { stageEl.setPointerCapture(e.pointerId); } catch (_) {}
+      updateCursorState(e.target);
+    }
+  });
+
+  stageEl.addEventListener('pointermove', e => {
+    if (!dragging || e.pointerId !== activePointerId) return;
+    const dx = e.clientX - downX;
+    const dy = e.clientY - downY;
+    moved = Math.hypot(dx, dy);
+    if (!dragLocked) {
+      if (Math.abs(dy) > 8 && Math.abs(dy) > Math.abs(dx)) {
+        // User is scrolling vertically on touch — release carousel drag immediately!
+        dragging = false;
+        activePointerId = null;
+        downCard = null;
+        return;
+      }
+      if (Math.abs(dx) > 8 && Math.abs(dx) >= Math.abs(dy)) {
+        dragLocked = true;
+        try { stageEl.setPointerCapture(e.pointerId); } catch (_) {}
+      } else {
+        return;
+      }
+    }
+    pos = p0 - dx / XS[1];
+    const now = performance.now();
+    const dt = now - lastT;
+    if (dt > 0) {
+      const v = (e.clientX - lastX) / dt;
+      vel = vel * .35 + v * .65;
+      lastX = e.clientX;
+      lastT = now;
+    }
+  });
+
+  function endDrag(e) {
+    if (!dragging || (e.pointerId !== undefined && e.pointerId !== activePointerId)) return;
+    const wasLocked = dragLocked;
+    dragging = false;
+    dragLocked = false;
+    activePointerId = null;
+    if (moved < 6 && downCard) {
+      const ci = Number(downCard.dataset.i);
+      const half = ARC_COUNT / 2;
+      const u = mod(ci - pos + half, ARC_COUNT) - half;
+      target = Math.round(pos + u);
+    } else if (wasLocked) {
+      const flick = (performance.now() - lastT > 80) ? 0 : vel;
+      target = Math.round(pos - flick * 3.0);
+    }
+    downCard = null;
+    if (hasPointer) updateCursorState(document.elementFromPoint(mx, my));
+  }
+  stageEl.addEventListener('pointerup', endDrag);
+  stageEl.addEventListener('pointercancel', endDrag);
+
+  // Smooth native vertical page scroll ALWAYS works!
+  // Horizontal trackpad swipe (deltaX) OR Shift+Wheel rotates the 3D T-shirt carousel.
+  let wheelAcc = 0, lastWheelStep = 0, lastWheelEvent = 0;
+  heroEl.addEventListener('wheel', e => {
+    if (gwModal.classList.contains('open') || adminModal.classList.contains('open')) return;
+    if (e.target.closest('.side-price')) return;
+    const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.15;
+    const isShiftWheel = e.shiftKey && Math.abs(e.deltaY) > 0;
+    if (!isHorizontal && !isShiftWheel) return; // Never block normal vertical page scrolling!
+
+    e.preventDefault();
+    const now = performance.now();
+    if (now - lastWheelEvent > 180) wheelAcc = 0;
+    lastWheelEvent = now;
+    const d = isHorizontal ? e.deltaX : e.deltaY;
+    wheelAcc += d;
+    if (Math.abs(wheelAcc) >= 48) {
+      if (now - lastWheelStep >= 210) {
+        target += Math.sign(wheelAcc);
+        lastWheelStep = now;
+      }
+      wheelAcc = 0;
+    }
+  }, { passive: false });
+
+  // Sync custom cursor & left-rail state cleanly when scrolling between Hero and Account Hub
+  window.addEventListener('scroll', () => {
+    const inHub = window.scrollY >= H * 0.45;
+    if (inHub) {
+      curEl.classList.remove('vis');
+      if (!gwModal.classList.contains('open') && !adminModal.classList.contains('open') && sidePriceEl.classList.contains('collapsed')) {
+        setActiveRail($('railProfile'));
+      }
+    } else if (!gwModal.classList.contains('open') && !adminModal.classList.contains('open') && sidePriceEl.classList.contains('collapsed')) {
+      setActiveRail($('railTry'));
+    }
+  }, { passive: true });
+
+  window.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+      e.preventDefault();
+      openAdmin();
+      return;
+    }
+    if (e.key === 'Escape') {
+      if (gwModal.classList.contains('open')) closeGateway();
+      if (adminModal.classList.contains('open')) closeAdmin();
+      if (!sidePriceEl.classList.contains('collapsed')) {
+        sidePriceEl.classList.add('collapsed');
+        setActiveRail($('railTry'));
+      }
+      return;
+    }
+    const tag = document.activeElement && document.activeElement.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); target -= 1; }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); target += 1; }
+  });
+
+  $('prev').addEventListener('click', () => { target -= 1; });
+  $('next').addEventListener('click', () => { target += 1; });
+
+  /* =========================================================================
+     HERO-SCOPED SILKY CUSTOM CURSOR
+     ========================================================================= */
+  let mx = W / 2, my = H / 2, cx = mx, cy = my;
+  let tx = 0, ty = 0, sx = 0, sy = 0;
+  let hasPointer = false;
+
+  function updateCursorState(el) {
+    const modalOpen = gwModal.classList.contains('open') || adminModal.classList.contains('open');
+    if (modalOpen || !el || !el.closest('.hero')) {
+      curEl.classList.remove('vis');
+      return;
+    }
+    if (hasPointer) curEl.classList.add('vis');
+    if (dragging) {
+      curEl.classList.add('drag');
+      curEl.classList.remove('try', 'btn');
+      return;
+    }
+    const isBtn = !!el.closest('button,a');
+    const isCard = !isBtn && !!el.closest('.card');
+    const isStage = !isBtn && !isCard && !!el.closest('.stage');
+    curEl.classList.toggle('btn', isBtn);
+    curEl.classList.toggle('try', isCard);
+    curEl.classList.toggle('drag', isStage);
+  }
+
+  window.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    mx = e.clientX;
+    my = e.clientY;
+    if (!hasPointer) { hasPointer = true; cx = mx; cy = my; }
+    tx = mx / W - .5;
+    ty = my / H - .5;
+    updateCursorState(e.target);
+  }, { passive: true });
+
+  window.addEventListener('pointerdown', e => { if (e.pointerType !== 'touch') curEl.classList.add('down'); }, { passive: true });
+  window.addEventListener('pointerup', () => curEl.classList.remove('down'), { passive: true });
+  window.addEventListener('pointercancel', () => curEl.classList.remove('down'), { passive: true });
+  document.addEventListener('pointerleave', () => curEl.classList.remove('vis'));
+
+  /* =========================================================================
+     LOCKED 60/120FPS COMPOSITOR-ONLY ANIMATION LOOP
+     ========================================================================= */
+  let lastNow = performance.now();
+
+  function frame(now) {
+    const dt = Math.min(0.05, Math.max(0.001, (now - lastNow) * 0.001));
+    lastNow = now;
+    const t = now * 0.001;
+
+    // Pause heavy hero updates when scrolled down to lower hub
+    if (window.scrollY < H * 0.95) {
+      if (reduced) {
+        intro = 1;
+        if (!dragging) pos = target;
+      } else {
+        if (intro < 1) intro = Math.min(1, intro + dt * 1.05);
+        if (!dragging) {
+          const easeStep = 1 - Math.exp(-dt * 11.0);
+          pos += (target - pos) * easeStep;
+          if (Math.abs(target - pos) < 0.0005) pos = target;
+        }
+      }
+
+      const ie = 1 - Math.pow(1 - intro, 3);
+      const pStep = 1 - Math.exp(-dt * 6.0);
+      sx += (tx - sx) * pStep;
+      sy += (ty - sy) * pStep;
+
+      // Lightweight GPU-only parallax on the Seen monogram
+      ghostEl.style.transform = `translate3d(calc(-50% - ${(sx * 28).toFixed(1)}px),${(-sy * 12).toFixed(1)}px,0)`;
+      if (intro < 1) {
+        seenSvg.style.transform = `translate3d(0,${((1 - ie) * 44).toFixed(1)}px,0) scale(${(0.94 + 0.06 * ie).toFixed(4)})`;
+        seenSvg.style.opacity = ie.toFixed(3);
+      } else if (seenSvg.style.opacity !== '1') {
+        seenSvg.style.transform = 'translate3d(0,0,0) scale(1)';
+        seenSvg.style.opacity = '1';
+      }
+
+      // 100% GPU-composited 3D T-Shirt Arc (ZERO filter blur thrashing!)
+      const half = ARC_COUNT / 2;
+      for (let k = 0; k < cards.length; k++) {
+        const c = cards[k];
+        const u = mod(c.i - pos + half, ARC_COUNT) - half;
+        const a = Math.abs(u);
+        const sg = Math.sign(u);
+
+        if (a > 4.25) {
+          if (c.vis) { c.el.style.visibility = 'hidden'; c.el.style.opacity = '0'; c.vis = false; }
+          continue;
+        }
+
+        const x = sg * xAt(a) * ie;
+        let s, z, op, ry;
+        if (a < 1) {
+          s = .55 + .45 * a;
+          z = -260 * (1 - a);
+          op = a;
+          ry = -sg * 16 * a;
+        } else {
+          s = 1 / (1 + .3 * Math.pow(a - 1, 1.15));
+          z = -110 * (a - 1);
+          op = 1 - Math.max(0, a - 2.3) * 0.24;
+          ry = -sg * (16 + 9 * Math.min(2, a - 1));
+        }
+        if (a > 3.4) op = Math.max(0, (1 - (a - 3.4) / .8) * 0.72);
+
+        const finalOp = Math.max(0, op * ie);
+        if (finalOp < .01) {
+          if (c.vis) { c.el.style.visibility = 'hidden'; c.el.style.opacity = '0'; c.vis = false; }
+        } else {
+          if (!c.vis) { c.el.style.visibility = 'visible'; c.vis = true; }
+          const bob = reduced ? 0 : Math.sin(t * 1.05 + c.seed) * H * .005 * Math.min(1, a);
+          const y = bob - (1 - s) * H * .04;
+          ry += sx * 9;
+          const zi = a < 1 ? 1 : Math.round(100 - 10 * a);
+          if (c.lastZ !== zi) { c.el.style.zIndex = zi; c.lastZ = zi; }
+          const sc = s * (.6 + .4 * ie);
+          c.el.style.opacity = finalOp.toFixed(3);
+          c.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) perspective(1300px) translateZ(${z.toFixed(1)}px) rotateY(${ry.toFixed(1)}deg) rotateX(${(-sy * 5).toFixed(1)}deg) scale(${sc.toFixed(4)})`;
+        }
+      }
+
+      // Trigger try-on scan promptly as card settles
+      if (!dragging && Math.abs(target - pos) < .04 && ITEMS.length > 0) {
+        const idx = mod(Math.round(target), ITEMS.length);
+        if (idx !== shown) tryOn(idx);
+      }
+    }
+
+    if (hasPointer && curEl.classList.contains('vis')) {
+      const cStep = 1 - Math.exp(-dt * 22);
+      cx += (mx - cx) * cStep;
+      cy += (my - cy) * cStep;
+      curEl.style.transform = `translate3d(${cx.toFixed(1)}px,${cy.toFixed(1)}px,0)`;
+    }
+
+    requestAnimationFrame(frame);
+  }
+
+  (async () => {
+    await loadCatalogFromDB();
+    measure();
+    rebuildArc();
+    window.addEventListener('resize', measure, { passive: true });
+    requestAnimationFrame(frame);
+  })();
+})();
+</script>
+</body>
+</html>
